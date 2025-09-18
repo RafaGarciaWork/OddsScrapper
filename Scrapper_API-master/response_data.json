@@ -1,0 +1,2250 @@
+[
+    {
+        "id": "bb38aef62c0eb6a5385eaa0b5a37554b",
+        "sport_key": "baseball_kbo",
+        "sport_title": "KBO",
+        "commence_time": "2024-04-21T05:00:00Z",
+        "home_team": "Kia Tigers",
+        "away_team": "NC Dinos",
+        "bookmakers": [
+            {
+                "key": "betmgm",
+                "title": "BetMGM",
+                "last_update": "2024-04-21T08:59:06Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T08:59:06Z",
+                        "outcomes": [
+                            {
+                                "name": "Kia Tigers",
+                                "price": 3300
+                            },
+                            {
+                                "name": "NC Dinos",
+                                "price": -10000
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "02a1a7d5f0f419f0531ebc459b971bd6",
+        "sport_key": "soccer_australia_aleague",
+        "sport_title": "A-League",
+        "commence_time": "2024-04-21T07:00:19Z",
+        "home_team": "Perth Glory",
+        "away_team": "Western United FC",
+        "bookmakers": [
+            {
+                "key": "mybookieag",
+                "title": "MyBookie.ag",
+                "last_update": "2024-04-21T09:08:11Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:11Z",
+                        "outcomes": [
+                            {
+                                "name": "Perth Glory",
+                                "price": 5500
+                            },
+                            {
+                                "name": "Western United FC",
+                                "price": -833
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 475
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "bovada",
+                "title": "Bovada",
+                "last_update": "2024-04-21T08:53:56Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T08:53:56Z",
+                        "outcomes": [
+                            {
+                                "name": "Perth Glory",
+                                "price": 10000
+                            },
+                            {
+                                "name": "Western United FC",
+                                "price": -1300
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 675
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "draftkings",
+                "title": "DraftKings",
+                "last_update": "2024-04-21T08:55:21Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T08:55:21Z",
+                        "outcomes": [
+                            {
+                                "name": "Perth Glory",
+                                "price": 5000
+                            },
+                            {
+                                "name": "Western United FC",
+                                "price": -20000
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 1900
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "dc2198e6675c710076653580df886e05",
+        "sport_key": "soccer_korea_kleague1",
+        "sport_title": "K League 1",
+        "commence_time": "2024-04-21T07:30:08Z",
+        "home_team": "Daegu FC",
+        "away_team": "Daejeon Citizen",
+        "bookmakers": [
+            {
+                "key": "mybookieag",
+                "title": "MyBookie.ag",
+                "last_update": "2024-04-21T09:08:31Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:31Z",
+                        "outcomes": [
+                            {
+                                "name": "Daegu FC",
+                                "price": 285
+                            },
+                            {
+                                "name": "Daejeon Citizen",
+                                "price": 200
+                            },
+                            {
+                                "name": "Draw",
+                                "price": -105
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "draftkings",
+                "title": "DraftKings",
+                "last_update": "2024-04-21T09:08:30Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:30Z",
+                        "outcomes": [
+                            {
+                                "name": "Daegu FC",
+                                "price": 500
+                            },
+                            {
+                                "name": "Daejeon Citizen",
+                                "price": 550
+                            },
+                            {
+                                "name": "Draw",
+                                "price": -310
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "bovada",
+                "title": "Bovada",
+                "last_update": "2024-04-21T09:08:30Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:30Z",
+                        "outcomes": [
+                            {
+                                "name": "Daegu FC",
+                                "price": 450
+                            },
+                            {
+                                "name": "Daejeon Citizen",
+                                "price": 450
+                            },
+                            {
+                                "name": "Draw",
+                                "price": -230
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betmgm",
+                "title": "BetMGM",
+                "last_update": "2024-04-21T09:06:51Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:51Z",
+                        "outcomes": [
+                            {
+                                "name": "Daegu FC",
+                                "price": 450
+                            },
+                            {
+                                "name": "Daejeon Citizen",
+                                "price": 400
+                            },
+                            {
+                                "name": "Draw",
+                                "price": -275
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "d782c525ab51799e2e56ecd9ccaac344",
+        "sport_key": "baseball_npb",
+        "sport_title": "NPB",
+        "commence_time": "2024-04-21T09:00:00Z",
+        "home_team": "Tokyo Yakult Swallows",
+        "away_team": "Yokohama DeNA BayStars",
+        "bookmakers": [
+            {
+                "key": "draftkings",
+                "title": "DraftKings",
+                "last_update": "2024-04-21T09:07:12Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:12Z",
+                        "outcomes": [
+                            {
+                                "name": "Tokyo Yakult Swallows",
+                                "price": 145
+                            },
+                            {
+                                "name": "Yokohama DeNA BayStars",
+                                "price": -190
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betonlineag",
+                "title": "BetOnline.ag",
+                "last_update": "2024-04-21T09:00:52Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:00:52Z",
+                        "outcomes": [
+                            {
+                                "name": "Tokyo Yakult Swallows",
+                                "price": -120
+                            },
+                            {
+                                "name": "Yokohama DeNA BayStars",
+                                "price": 100
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "pointsbetus",
+                "title": "PointsBet (US)",
+                "last_update": "2024-04-21T09:07:12Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:12Z",
+                        "outcomes": [
+                            {
+                                "name": "Tokyo Yakult Swallows",
+                                "price": 144
+                            },
+                            {
+                                "name": "Yokohama DeNA BayStars",
+                                "price": -195
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "williamhill_us",
+                "title": "Caesars",
+                "last_update": "2024-04-21T09:07:12Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:12Z",
+                        "outcomes": [
+                            {
+                                "name": "Tokyo Yakult Swallows",
+                                "price": 140
+                            },
+                            {
+                                "name": "Yokohama DeNA BayStars",
+                                "price": -190
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "mybookieag",
+                "title": "MyBookie.ag",
+                "last_update": "2024-04-21T09:07:12Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:12Z",
+                        "outcomes": [
+                            {
+                                "name": "Tokyo Yakult Swallows",
+                                "price": -122
+                            },
+                            {
+                                "name": "Yokohama DeNA BayStars",
+                                "price": -104
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "fanduel",
+                "title": "FanDuel",
+                "last_update": "2024-04-21T09:05:47Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:05:47Z",
+                        "outcomes": [
+                            {
+                                "name": "Tokyo Yakult Swallows",
+                                "price": 112
+                            },
+                            {
+                                "name": "Yokohama DeNA BayStars",
+                                "price": -142
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betrivers",
+                "title": "BetRivers",
+                "last_update": "2024-04-21T08:59:50Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T08:59:50Z",
+                        "outcomes": [
+                            {
+                                "name": "Tokyo Yakult Swallows",
+                                "price": -114
+                            },
+                            {
+                                "name": "Yokohama DeNA BayStars",
+                                "price": -112
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "unibet_us",
+                "title": "Unibet",
+                "last_update": "2024-04-21T08:59:51Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T08:59:51Z",
+                        "outcomes": [
+                            {
+                                "name": "Tokyo Yakult Swallows",
+                                "price": -114
+                            },
+                            {
+                                "name": "Yokohama DeNA BayStars",
+                                "price": -112
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "superbook",
+                "title": "SuperBook",
+                "last_update": "2024-04-21T08:59:51Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T08:59:51Z",
+                        "outcomes": [
+                            {
+                                "name": "Tokyo Yakult Swallows",
+                                "price": -120
+                            },
+                            {
+                                "name": "Yokohama DeNA BayStars",
+                                "price": -105
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betmgm",
+                "title": "BetMGM",
+                "last_update": "2024-04-21T09:05:45Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:05:45Z",
+                        "outcomes": [
+                            {
+                                "name": "Tokyo Yakult Swallows",
+                                "price": 130
+                            },
+                            {
+                                "name": "Yokohama DeNA BayStars",
+                                "price": -165
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "bovada",
+                "title": "Bovada",
+                "last_update": "2024-04-21T09:07:13Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:13Z",
+                        "outcomes": [
+                            {
+                                "name": "Tokyo Yakult Swallows",
+                                "price": -115
+                            },
+                            {
+                                "name": "Yokohama DeNA BayStars",
+                                "price": -115
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "41a7ce09d7c82193024084293f2a8f9e",
+        "sport_key": "cricket_ipl",
+        "sport_title": "IPL",
+        "commence_time": "2024-04-21T10:00:00Z",
+        "home_team": "Kolkata Knight Riders",
+        "away_team": "Royal Challengers Bangalore",
+        "bookmakers": [
+            {
+                "key": "mybookieag",
+                "title": "MyBookie.ag",
+                "last_update": "2024-04-21T09:07:25Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:25Z",
+                        "outcomes": [
+                            {
+                                "name": "Kolkata Knight Riders",
+                                "price": -152
+                            },
+                            {
+                                "name": "Royal Challengers Bangalore",
+                                "price": 119
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "unibet_us",
+                "title": "Unibet",
+                "last_update": "2024-04-21T09:07:26Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:26Z",
+                        "outcomes": [
+                            {
+                                "name": "Kolkata Knight Riders",
+                                "price": -150
+                            },
+                            {
+                                "name": "Royal Challengers Bangalore",
+                                "price": 120
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "draftkings",
+                "title": "DraftKings",
+                "last_update": "2024-04-21T09:07:26Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:26Z",
+                        "outcomes": [
+                            {
+                                "name": "Kolkata Knight Riders",
+                                "price": -140
+                            },
+                            {
+                                "name": "Royal Challengers Bangalore",
+                                "price": 110
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "lowvig",
+                "title": "LowVig.ag",
+                "last_update": "2024-04-21T09:07:26Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:26Z",
+                        "outcomes": [
+                            {
+                                "name": "Kolkata Knight Riders",
+                                "price": -135
+                            },
+                            {
+                                "name": "Royal Challengers Bangalore",
+                                "price": 115
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betonlineag",
+                "title": "BetOnline.ag",
+                "last_update": "2024-04-21T09:08:16Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:16Z",
+                        "outcomes": [
+                            {
+                                "name": "Kolkata Knight Riders",
+                                "price": -135
+                            },
+                            {
+                                "name": "Royal Challengers Bangalore",
+                                "price": 115
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "f11ba2808a31dc4eb2912e198c6909e8",
+        "sport_key": "soccer_turkey_super_league",
+        "sport_title": "Turkey Super League",
+        "commence_time": "2024-04-21T10:30:00Z",
+        "home_team": "Basaksehir",
+        "away_team": "\u00c7aykur Rizespor",
+        "bookmakers": [
+            {
+                "key": "pointsbetus",
+                "title": "PointsBet (US)",
+                "last_update": "2024-04-21T09:08:20Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:20Z",
+                        "outcomes": [
+                            {
+                                "name": "Basaksehir",
+                                "price": 110
+                            },
+                            {
+                                "name": "\u00c7aykur Rizespor",
+                                "price": 225
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 260
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "mybookieag",
+                "title": "MyBookie.ag",
+                "last_update": "2024-04-21T09:07:30Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:30Z",
+                        "outcomes": [
+                            {
+                                "name": "Basaksehir",
+                                "price": 111
+                            },
+                            {
+                                "name": "\u00c7aykur Rizespor",
+                                "price": 228
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 255
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "bovada",
+                "title": "Bovada",
+                "last_update": "2024-04-21T09:08:20Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:20Z",
+                        "outcomes": [
+                            {
+                                "name": "Basaksehir",
+                                "price": 110
+                            },
+                            {
+                                "name": "\u00c7aykur Rizespor",
+                                "price": 220
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 240
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "draftkings",
+                "title": "DraftKings",
+                "last_update": "2024-04-21T09:08:20Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:20Z",
+                        "outcomes": [
+                            {
+                                "name": "Basaksehir",
+                                "price": 110
+                            },
+                            {
+                                "name": "\u00c7aykur Rizespor",
+                                "price": 250
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 245
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "unibet_us",
+                "title": "Unibet",
+                "last_update": "2024-04-21T09:08:21Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:21Z",
+                        "outcomes": [
+                            {
+                                "name": "Basaksehir",
+                                "price": 108
+                            },
+                            {
+                                "name": "\u00c7aykur Rizespor",
+                                "price": 220
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 255
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betrivers",
+                "title": "BetRivers",
+                "last_update": "2024-04-21T09:08:21Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:21Z",
+                        "outcomes": [
+                            {
+                                "name": "Basaksehir",
+                                "price": 108
+                            },
+                            {
+                                "name": "\u00c7aykur Rizespor",
+                                "price": 220
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 255
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betmgm",
+                "title": "BetMGM",
+                "last_update": "2024-04-21T09:06:37Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:37Z",
+                        "outcomes": [
+                            {
+                                "name": "Basaksehir",
+                                "price": 105
+                            },
+                            {
+                                "name": "\u00c7aykur Rizespor",
+                                "price": 230
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 240
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betonlineag",
+                "title": "BetOnline.ag",
+                "last_update": "2024-04-21T09:07:30Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:30Z",
+                        "outcomes": [
+                            {
+                                "name": "Basaksehir",
+                                "price": 116
+                            },
+                            {
+                                "name": "\u00c7aykur Rizespor",
+                                "price": 210
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 240
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "lowvig",
+                "title": "LowVig.ag",
+                "last_update": "2024-04-21T09:08:21Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:21Z",
+                        "outcomes": [
+                            {
+                                "name": "Basaksehir",
+                                "price": 116
+                            },
+                            {
+                                "name": "\u00c7aykur Rizespor",
+                                "price": 210
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 240
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betus",
+                "title": "BetUS",
+                "last_update": "2024-04-21T09:08:20Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:20Z",
+                        "outcomes": [
+                            {
+                                "name": "Basaksehir",
+                                "price": 110
+                            },
+                            {
+                                "name": "\u00c7aykur Rizespor",
+                                "price": 220
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 240
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "a662a6a7f83728aff9fbbdce515f4ae7",
+        "sport_key": "soccer_poland_ekstraklasa",
+        "sport_title": "Ekstraklasa - Poland",
+        "commence_time": "2024-04-21T10:30:00Z",
+        "home_team": "Cracovia Krak\u00f3w",
+        "away_team": "Puszcza Niepo\u0142omice",
+        "bookmakers": [
+            {
+                "key": "pointsbetus",
+                "title": "PointsBet (US)",
+                "last_update": "2024-04-21T09:07:47Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:47Z",
+                        "outcomes": [
+                            {
+                                "name": "Cracovia Krak\u00f3w",
+                                "price": -136
+                            },
+                            {
+                                "name": "Puszcza Niepo\u0142omice",
+                                "price": 350
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 260
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "fanduel",
+                "title": "FanDuel",
+                "last_update": "2024-04-21T09:07:04Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:04Z",
+                        "outcomes": [
+                            {
+                                "name": "Cracovia Krak\u00f3w",
+                                "price": -135
+                            },
+                            {
+                                "name": "Puszcza Niepo\u0142omice",
+                                "price": 340
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 240
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "mybookieag",
+                "title": "MyBookie.ag",
+                "last_update": "2024-04-21T09:07:03Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:03Z",
+                        "outcomes": [
+                            {
+                                "name": "Cracovia Krak\u00f3w",
+                                "price": -133
+                            },
+                            {
+                                "name": "Puszcza Niepo\u0142omice",
+                                "price": 340
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 280
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "bovada",
+                "title": "Bovada",
+                "last_update": "2024-04-21T09:07:04Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:04Z",
+                        "outcomes": [
+                            {
+                                "name": "Cracovia Krak\u00f3w",
+                                "price": -130
+                            },
+                            {
+                                "name": "Puszcza Niepo\u0142omice",
+                                "price": 330
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 255
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "draftkings",
+                "title": "DraftKings",
+                "last_update": "2024-04-21T09:07:04Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:04Z",
+                        "outcomes": [
+                            {
+                                "name": "Cracovia Krak\u00f3w",
+                                "price": -130
+                            },
+                            {
+                                "name": "Puszcza Niepo\u0142omice",
+                                "price": 360
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 265
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "unibet_us",
+                "title": "Unibet",
+                "last_update": "2024-04-21T09:07:04Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:04Z",
+                        "outcomes": [
+                            {
+                                "name": "Cracovia Krak\u00f3w",
+                                "price": -136
+                            },
+                            {
+                                "name": "Puszcza Niepo\u0142omice",
+                                "price": 360
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 255
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betrivers",
+                "title": "BetRivers",
+                "last_update": "2024-04-21T09:07:04Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:04Z",
+                        "outcomes": [
+                            {
+                                "name": "Cracovia Krak\u00f3w",
+                                "price": -136
+                            },
+                            {
+                                "name": "Puszcza Niepo\u0142omice",
+                                "price": 360
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 255
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betmgm",
+                "title": "BetMGM",
+                "last_update": "2024-04-21T09:06:15Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:15Z",
+                        "outcomes": [
+                            {
+                                "name": "Cracovia Krak\u00f3w",
+                                "price": -135
+                            },
+                            {
+                                "name": "Puszcza Niepo\u0142omice",
+                                "price": 350
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 260
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betus",
+                "title": "BetUS",
+                "last_update": "2024-04-21T09:07:47Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:47Z",
+                        "outcomes": [
+                            {
+                                "name": "Cracovia Krak\u00f3w",
+                                "price": -137
+                            },
+                            {
+                                "name": "Puszcza Niepo\u0142omice",
+                                "price": 357
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 274
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betonlineag",
+                "title": "BetOnline.ag",
+                "last_update": "2024-04-21T09:07:04Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:04Z",
+                        "outcomes": [
+                            {
+                                "name": "Cracovia Krak\u00f3w",
+                                "price": -128
+                            },
+                            {
+                                "name": "Puszcza Niepo\u0142omice",
+                                "price": 315
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 260
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "lowvig",
+                "title": "LowVig.ag",
+                "last_update": "2024-04-21T09:07:04Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:04Z",
+                        "outcomes": [
+                            {
+                                "name": "Cracovia Krak\u00f3w",
+                                "price": -128
+                            },
+                            {
+                                "name": "Puszcza Niepo\u0142omice",
+                                "price": 315
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 260
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "00521dac728bdbe33edb229aed045af5",
+        "sport_key": "soccer_italy_serie_a",
+        "sport_title": "Serie A - Italy",
+        "commence_time": "2024-04-21T10:30:00Z",
+        "home_team": "Sassuolo",
+        "away_team": "Lecce",
+        "bookmakers": [
+            {
+                "key": "fanduel",
+                "title": "FanDuel",
+                "last_update": "2024-04-21T09:08:26Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:26Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 220
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 125
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 220
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "pointsbetus",
+                "title": "PointsBet (US)",
+                "last_update": "2024-04-21T09:08:25Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:25Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 210
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 130
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 230
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betmgm",
+                "title": "BetMGM",
+                "last_update": "2024-04-21T09:07:32Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:32Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 210
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 130
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 230
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "williamhill_us",
+                "title": "Caesars",
+                "last_update": "2024-04-21T09:08:25Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:25Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 210
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 130
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 230
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "bovada",
+                "title": "Bovada",
+                "last_update": "2024-04-21T09:08:25Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:25Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 210
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 130
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 240
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "draftkings",
+                "title": "DraftKings",
+                "last_update": "2024-04-21T09:08:25Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:25Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 210
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 130
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 220
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "unibet_us",
+                "title": "Unibet",
+                "last_update": "2024-04-21T09:08:26Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:26Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 225
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 123
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 235
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betrivers",
+                "title": "BetRivers",
+                "last_update": "2024-04-21T09:08:26Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:26Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 225
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 123
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 235
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "mybookieag",
+                "title": "MyBookie.ag",
+                "last_update": "2024-04-21T09:08:25Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:25Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 212
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 132
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 234
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "superbook",
+                "title": "SuperBook",
+                "last_update": "2024-04-21T09:08:26Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:26Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 205
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 125
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 225
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "lowvig",
+                "title": "LowVig.ag",
+                "last_update": "2024-04-21T09:08:25Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:25Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 230
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 135
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 227
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betonlineag",
+                "title": "BetOnline.ag",
+                "last_update": "2024-04-21T09:08:25Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:25Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 230
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 135
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 227
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betus",
+                "title": "BetUS",
+                "last_update": "2024-04-21T09:08:25Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:25Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 210
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 132
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 235
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "wynnbet",
+                "title": "WynnBET",
+                "last_update": "2024-04-21T09:08:25Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:25Z",
+                        "outcomes": [
+                            {
+                                "name": "Lecce",
+                                "price": 240
+                            },
+                            {
+                                "name": "Sassuolo",
+                                "price": 135
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 225
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "68ad6ceaec295d269be5af7f67b8d91b",
+        "sport_key": "cricket_international_t20",
+        "sport_title": "International Twenty20",
+        "commence_time": "2024-04-21T10:30:00Z",
+        "home_team": "UAE",
+        "away_team": "Oman",
+        "bookmakers": [
+            {
+                "key": "unibet_us",
+                "title": "Unibet",
+                "last_update": "2024-04-21T09:07:06Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:06Z",
+                        "outcomes": [
+                            {
+                                "name": "Oman",
+                                "price": -106
+                            },
+                            {
+                                "name": "UAE",
+                                "price": -125
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "dbe79397e1dd28faa58af1d02640d3c9",
+        "sport_key": "soccer_sweden_superettan",
+        "sport_title": "Superettan - Sweden",
+        "commence_time": "2024-04-21T11:00:00Z",
+        "home_team": "IK Oddevold",
+        "away_team": "Gefle IF",
+        "bookmakers": [
+            {
+                "key": "fanduel",
+                "title": "FanDuel",
+                "last_update": "2024-04-21T09:07:40Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:40Z",
+                        "outcomes": [
+                            {
+                                "name": "Gefle IF",
+                                "price": 300
+                            },
+                            {
+                                "name": "IK Oddevold",
+                                "price": -120
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 230
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "mybookieag",
+                "title": "MyBookie.ag",
+                "last_update": "2024-04-21T09:07:39Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:39Z",
+                        "outcomes": [
+                            {
+                                "name": "Gefle IF",
+                                "price": 285
+                            },
+                            {
+                                "name": "IK Oddevold",
+                                "price": -105
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 248
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "bovada",
+                "title": "Bovada",
+                "last_update": "2024-04-21T09:06:58Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:58Z",
+                        "outcomes": [
+                            {
+                                "name": "Gefle IF",
+                                "price": 280
+                            },
+                            {
+                                "name": "IK Oddevold",
+                                "price": -105
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 230
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betmgm",
+                "title": "BetMGM",
+                "last_update": "2024-04-21T09:06:58Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:58Z",
+                        "outcomes": [
+                            {
+                                "name": "Gefle IF",
+                                "price": 280
+                            },
+                            {
+                                "name": "IK Oddevold",
+                                "price": -115
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 225
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betonlineag",
+                "title": "BetOnline.ag",
+                "last_update": "2024-04-21T09:06:58Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:58Z",
+                        "outcomes": [
+                            {
+                                "name": "Gefle IF",
+                                "price": 265
+                            },
+                            {
+                                "name": "IK Oddevold",
+                                "price": -108
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 230
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "lowvig",
+                "title": "LowVig.ag",
+                "last_update": "2024-04-21T09:06:58Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:58Z",
+                        "outcomes": [
+                            {
+                                "name": "Gefle IF",
+                                "price": 265
+                            },
+                            {
+                                "name": "IK Oddevold",
+                                "price": -108
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 230
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "draftkings",
+                "title": "DraftKings",
+                "last_update": "2024-04-21T09:06:57Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:57Z",
+                        "outcomes": [
+                            {
+                                "name": "Gefle IF",
+                                "price": 300
+                            },
+                            {
+                                "name": "IK Oddevold",
+                                "price": -105
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 250
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "5b37b0abb8e0929ef15804652defa30c",
+        "sport_key": "soccer_china_superleague",
+        "sport_title": "Super League - China",
+        "commence_time": "2024-04-21T11:00:00Z",
+        "home_team": "Henan FC",
+        "away_team": "Qingdao Hainiu FC",
+        "bookmakers": [
+            {
+                "key": "fanduel",
+                "title": "FanDuel",
+                "last_update": "2024-04-21T09:04:29Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:04:29Z",
+                        "outcomes": [
+                            {
+                                "name": "Henan FC",
+                                "price": -105
+                            },
+                            {
+                                "name": "Qingdao Hainiu FC",
+                                "price": 290
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 250
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "superbook",
+                "title": "SuperBook",
+                "last_update": "2024-04-21T09:07:37Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:37Z",
+                        "outcomes": [
+                            {
+                                "name": "Henan FC",
+                                "price": -110
+                            },
+                            {
+                                "name": "Qingdao Hainiu FC",
+                                "price": 285
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 235
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "mybookieag",
+                "title": "MyBookie.ag",
+                "last_update": "2024-04-21T09:07:36Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:36Z",
+                        "outcomes": [
+                            {
+                                "name": "Henan FC",
+                                "price": -108
+                            },
+                            {
+                                "name": "Qingdao Hainiu FC",
+                                "price": 310
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 240
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "draftkings",
+                "title": "DraftKings",
+                "last_update": "2024-04-21T09:07:36Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:36Z",
+                        "outcomes": [
+                            {
+                                "name": "Henan FC",
+                                "price": -105
+                            },
+                            {
+                                "name": "Qingdao Hainiu FC",
+                                "price": 310
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 250
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "bovada",
+                "title": "Bovada",
+                "last_update": "2024-04-21T09:07:37Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:37Z",
+                        "outcomes": [
+                            {
+                                "name": "Henan FC",
+                                "price": -105
+                            },
+                            {
+                                "name": "Qingdao Hainiu FC",
+                                "price": 295
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 230
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betrivers",
+                "title": "BetRivers",
+                "last_update": "2024-04-21T09:07:37Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:37Z",
+                        "outcomes": [
+                            {
+                                "name": "Henan FC",
+                                "price": -109
+                            },
+                            {
+                                "name": "Qingdao Hainiu FC",
+                                "price": 300
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 230
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "unibet_us",
+                "title": "Unibet",
+                "last_update": "2024-04-21T09:07:37Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:37Z",
+                        "outcomes": [
+                            {
+                                "name": "Henan FC",
+                                "price": -109
+                            },
+                            {
+                                "name": "Qingdao Hainiu FC",
+                                "price": 300
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 230
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betmgm",
+                "title": "BetMGM",
+                "last_update": "2024-04-21T09:08:32Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:32Z",
+                        "outcomes": [
+                            {
+                                "name": "Henan FC",
+                                "price": -110
+                            },
+                            {
+                                "name": "Qingdao Hainiu FC",
+                                "price": 280
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 225
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "lowvig",
+                "title": "LowVig.ag",
+                "last_update": "2024-04-21T09:07:37Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:37Z",
+                        "outcomes": [
+                            {
+                                "name": "Henan FC",
+                                "price": -107
+                            },
+                            {
+                                "name": "Qingdao Hainiu FC",
+                                "price": 270
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 230
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betonlineag",
+                "title": "BetOnline.ag",
+                "last_update": "2024-04-21T09:07:37Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:37Z",
+                        "outcomes": [
+                            {
+                                "name": "Henan FC",
+                                "price": -107
+                            },
+                            {
+                                "name": "Qingdao Hainiu FC",
+                                "price": 270
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 230
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betus",
+                "title": "BetUS",
+                "last_update": "2024-04-21T09:08:32Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:08:32Z",
+                        "outcomes": [
+                            {
+                                "name": "Henan FC",
+                                "price": -116
+                            },
+                            {
+                                "name": "Qingdao Hainiu FC",
+                                "price": 305
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 252
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "e0459018a03c3aad88c6d622fd572b90",
+        "sport_key": "soccer_germany_bundesliga2",
+        "sport_title": "Bundesliga 2 - Germany",
+        "commence_time": "2024-04-21T11:30:00Z",
+        "home_team": "Hansa Rostock",
+        "away_team": "1. FC Magdeburg",
+        "bookmakers": [
+            {
+                "key": "pointsbetus",
+                "title": "PointsBet (US)",
+                "last_update": "2024-04-21T09:06:54Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:54Z",
+                        "outcomes": [
+                            {
+                                "name": "1. FC Magdeburg",
+                                "price": 150
+                            },
+                            {
+                                "name": "Hansa Rostock",
+                                "price": 165
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 240
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "fanduel",
+                "title": "FanDuel",
+                "last_update": "2024-04-21T09:06:55Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:55Z",
+                        "outcomes": [
+                            {
+                                "name": "1. FC Magdeburg",
+                                "price": 135
+                            },
+                            {
+                                "name": "Hansa Rostock",
+                                "price": 185
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 240
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "mybookieag",
+                "title": "MyBookie.ag",
+                "last_update": "2024-04-21T09:06:54Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:54Z",
+                        "outcomes": [
+                            {
+                                "name": "1. FC Magdeburg",
+                                "price": 139
+                            },
+                            {
+                                "name": "Hansa Rostock",
+                                "price": 179
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 255
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "draftkings",
+                "title": "DraftKings",
+                "last_update": "2024-04-21T09:06:54Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:54Z",
+                        "outcomes": [
+                            {
+                                "name": "1. FC Magdeburg",
+                                "price": 140
+                            },
+                            {
+                                "name": "Hansa Rostock",
+                                "price": 185
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 245
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "bovada",
+                "title": "Bovada",
+                "last_update": "2024-04-21T09:06:54Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:54Z",
+                        "outcomes": [
+                            {
+                                "name": "1. FC Magdeburg",
+                                "price": 140
+                            },
+                            {
+                                "name": "Hansa Rostock",
+                                "price": 170
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 260
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betmgm",
+                "title": "BetMGM",
+                "last_update": "2024-04-21T09:03:39Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:03:39Z",
+                        "outcomes": [
+                            {
+                                "name": "1. FC Magdeburg",
+                                "price": 138
+                            },
+                            {
+                                "name": "Hansa Rostock",
+                                "price": 180
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 250
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betrivers",
+                "title": "BetRivers",
+                "last_update": "2024-04-21T09:06:54Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:54Z",
+                        "outcomes": [
+                            {
+                                "name": "1. FC Magdeburg",
+                                "price": 148
+                            },
+                            {
+                                "name": "Hansa Rostock",
+                                "price": 165
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 250
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "unibet_us",
+                "title": "Unibet",
+                "last_update": "2024-04-21T09:06:55Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:55Z",
+                        "outcomes": [
+                            {
+                                "name": "1. FC Magdeburg",
+                                "price": 148
+                            },
+                            {
+                                "name": "Hansa Rostock",
+                                "price": 165
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 250
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "betonlineag",
+                "title": "BetOnline.ag",
+                "last_update": "2024-04-21T09:07:39Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:07:39Z",
+                        "outcomes": [
+                            {
+                                "name": "1. FC Magdeburg",
+                                "price": 132
+                            },
+                            {
+                                "name": "Hansa Rostock",
+                                "price": 190
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 265
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "lowvig",
+                "title": "LowVig.ag",
+                "last_update": "2024-04-21T09:06:55Z",
+                "markets": [
+                    {
+                        "key": "h2h",
+                        "last_update": "2024-04-21T09:06:55Z",
+                        "outcomes": [
+                            {
+                                "name": "1. FC Magdeburg",
+                                "price": 132
+                            },
+                            {
+                                "name": "Hansa Rostock",
+                                "price": 190
+                            },
+                            {
+                                "name": "Draw",
+                                "price": 265
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
