@@ -1,37 +1,32 @@
 from fastapi import FastAPI
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from bs4 import BeautifulSoup
-import time
+from pydantic import BaseModel
+from typing import List, Dict
 
 app = FastAPI()
 
-@app.get("/api/superbowl-odds")
-async def get_superbowl_odds():
-    url = 'https://sportsbook.draftkings.com/leagues/football/nfl?category=futures&subcategory=super-bowl'
+class OddsItem(BaseModel):
+    team: str
+    odds: str
+    conference: str = None  # Optional for clustering
+    division: str = None    # Optional for clustering
 
-    # Set up headless Chrome
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--no-sandbox")
+# In-memory storage for odds by sport and tournament
+stored_odds: Dict[str, Dict[str, List[OddsItem]]] = {}
 
-    driver = webdriver.Chrome(options=chrome_options)
-    driver.get(url)
+# Initialize storage
+for sport in ["nfl", "nba", "wnba"]:
+    stored_odds[sport] = {}
 
-    # Wait for JavaScript to load content
-    time.sleep(5)  # Adjust as needed
+@app.post("/api/{sport}/{tournament}")
+async def receive_odds(sport: str, tournament: str, odds: List[OddsItem]):
+    if sport not in stored_odds:
+        stored_odds[sport] = {}
+    stored_odds[sport][tournament] = odds
+    print(f"Received {len(odds)} {tournament.replace('-', ' ').title()} odds for {sport.upper()}: {odds}")
+    return {"status": "success", "received": len(odds)}
 
-    soup = BeautifulSoup(driver.page_source, "html.parser")
-    driver.quit()
-
-    team_elements = soup.find_all("span", {"data-testid": "button-title-market-board"})
-    odds_elements = soup.find_all("span", {"data-testid": "button-odds-market-board"})
-
-    results = []
-    for team, odd in zip(team_elements, odds_elements):
-        team_name = team.get_text(strip=True)
-        odds_value = odd.get_text(strip=True)
-        results.append({"team": team_name, "odds": odds_value})
-
-    return results
+@app.get("/api/{sport}/{tournament}")
+async def get_odds(sport: str, tournament: str):
+    if sport in stored_odds and tournament in stored_odds[sport]:
+        return {"odds": stored_odds[sport][tournament]}
+    return {"error": "No odds data available for this sport and tournament"}, 404

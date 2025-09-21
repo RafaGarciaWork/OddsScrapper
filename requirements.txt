@@ -4,4 +4,4 @@ bsu
 fastapi
 selenium
 uvicorn
-
+tkinter

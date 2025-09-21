@@ -1,0 +1,20 @@
+NFL
+    SUPERBOWL
+    Conference Winner
+    Division Winner
+NBA
+    Championship
+    Conference
+    Division Winner
+WNBA
+    Championship
+
+Collegue Football
+    National Championship
+    
+/////////
+Collegue basketball
+
+NHL
+TENNIS
+F1
