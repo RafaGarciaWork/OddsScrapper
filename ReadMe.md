@@ -1,53 +1,45 @@
 # DraftKings Scraper
 
-A comprehensive sports odds scraper for DraftKings with GUI interface and FastAPI backend.
+Lightweight DraftKings odds scraper (CLI) with a FastAPI backend and SQLite persistence.
 
 ## Features
 
-- **GUI Interface**: Easy-to-use Tkinter application for selecting sports and tournaments
-- **Multiple Sports Support**: NFL, NBA, WNBA with various tournament types
-- **Structured Data**: Organized odds data by championship, conference, and division
-- **FastAPI Backend**: REST API for storing and retrieving scraped data
-- **Real-time Scraping**: Live data extraction from DraftKings sportsbook
+- **CLI Scraper**: Iterates configured sports/tournaments and POSTs results to API
+- **Multiple Sports**: NFL (examples in config); easy to extend
+- **Persistence**: Stores payloads in `odds.db` (SQLite)
+- **JSON Dumps**: Saves each scrape to `scrapes/` for review
 
-## How to Run
-
-### Prerequisites
-
-Make sure you have Python 3.8+ installed and the required dependencies:
+## Install
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Running the Application
-
-1. **Start the FastAPI Backend** (Terminal 1):
-```bash
-cd V1/draftkings
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+Create a `.env` in project root (optional):
+```
+API_BASE_URL=http://localhost:8000
 ```
 
-2. **Launch the GUI Scraper** (Terminal 2):
+## Run
+
+1) Start API (run from project root):
 ```bash
-cd V1/draftkings
-python ScrapperUI.py
+uvicorn V1.draftkings.main:app --reload
 ```
 
-### Usage
+2) Run scraper (from project root):
+```bash
+python -m V1.draftkings.scrapper
+```
 
-1. Select a sport from the dropdown (NFL, NBA, WNBA)
-2. Choose a tournament type (Super Bowl, Conference Winner, etc.)
-3. Click "Scrape & Send" to extract odds and send to the API
-4. View results in the status area
+Scraped files: `scrapes/draftkings_{sport}_{tournament}_{UTC}.json`
 
-### API Endpoints
+## API Endpoints (summary)
 
-- `POST /api/{provider}/{sport}/{tournament}` - Store odds data
-- `GET /api/{provider}/{sport}/{tournament}` - Retrieve all odds data
-- `GET /api/{provider}/{sport}/{tournament}/championship` - Get championship odds
-- `GET /api/{provider}/{sport}/{tournament}/conferences` - Get conference odds
-- `GET /api/{provider}/{sport}/{tournament}/divisions` - Get division odds
+- `POST /api/{provider}/{sport}/{tournament}`: Store odds
+- `GET /api/{provider}/{sport}/{tournament}`: Full stored JSON
+- `GET /api/{provider}/{sport}/{tournament}/championship`: `{ teams: [...] }`
+- `GET /api/{provider}/{sport}/{tournament}/conferences`: `{ conferences: [...] }`
+- `GET /api/{provider}/{sport}/{tournament}/divisions`: `{ divisions: [...] }`
 
-
-
+DB file: `odds.db`. Inspect with `sqlite3 odds.db` → `.schema odds`, `SELECT * FROM odds LIMIT 5;`
