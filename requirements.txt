@@ -1,7 +1,8 @@
 requests
 python-dotenv
-bsu
+beautifulsoup4
 fastapi
 selenium
 uvicorn
-tkinter
+tk
+flask

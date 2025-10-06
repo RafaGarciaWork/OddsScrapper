@@ -32,18 +32,18 @@ class DivisionData(BaseModel):
 # Union type for all possible data structures
 OddsData = Union[ChampionshipData, ConferenceData, DivisionData]
 
-# In-memory storage for odds by sport and tournament
-stored_odds: Dict[str, Dict[str, OddsData]] = {}
+# In-memory storage for odds by provider -> sport -> tournament
+stored_odds: Dict[str, Dict[str, Dict[str, OddsData]]] = {}
 
-# Initialize storage
-for sport in ["nfl", "nba", "wnba"]:
-    stored_odds[sport] = {}
-
-@app.post("/api/{sport}/{tournament}")
-async def receive_odds(sport: str, tournament: str, odds_data: OddsData):
-    if sport not in stored_odds:
-        stored_odds[sport] = {}
-    stored_odds[sport][tournament] = odds_data
+@app.post("/api/{provider}/{sport}/{tournament}")
+async def receive_odds(provider: str, sport: str, tournament: str, odds_data: OddsData):
+    provider = provider.lower()
+    sport = sport.lower()
+    if provider not in stored_odds:
+        stored_odds[provider] = {}
+    if sport not in stored_odds[provider]:
+        stored_odds[provider][sport] = {}
+    stored_odds[provider][sport][tournament] = odds_data
     
     # Count total teams for logging
     total_teams = 0
@@ -54,45 +54,90 @@ async def receive_odds(sport: str, tournament: str, odds_data: OddsData):
     elif odds_data.event_type == "division":
         total_teams = sum(len(div.teams) for div in odds_data.divisions)
     
-    print(f"Received {total_teams} teams for {tournament.replace('-', ' ').title()} {sport.upper()} ({odds_data.event_type})")
+    print(
+        f"Received {total_teams} teams for {provider.upper()} {sport.upper()} {tournament.replace('-', ' ').title()} ({odds_data.event_type})"
+    )
     return {"status": "success", "event_type": odds_data.event_type, "total_teams": total_teams}
 
-@app.get("/api/{sport}/{tournament}")
-async def get_odds(sport: str, tournament: str):
-    if sport in stored_odds and tournament in stored_odds[sport]:
-        return {"odds": stored_odds[sport][tournament]}
+@app.get("/api/{provider}/{sport}/{tournament}")
+async def get_odds(provider: str, sport: str, tournament: str):
+    provider = provider.lower()
+    sport = sport.lower()
+    if provider in stored_odds and sport in stored_odds[provider] and tournament in stored_odds[provider][sport]:
+        return {"odds": stored_odds[provider][sport][tournament]}
     return {"error": "No odds data available for this sport and tournament"}, 404
 
 # New endpoints for specific data access
-@app.get("/api/{sport}/{tournament}/championship")
-async def get_championship_odds(sport: str, tournament: str):
+@app.get("/api/{provider}/{sport}/{tournament}/championship")
+async def get_championship_odds(provider: str, sport: str, tournament: str):
     """Get championship odds as a flat list of teams"""
-    if sport in stored_odds and tournament in stored_odds[sport]:
-        data = stored_odds[sport][tournament]
+    provider = provider.lower()
+    sport = sport.lower()
+    if provider in stored_odds and sport in stored_odds[provider] and tournament in stored_odds[provider][sport]:
+        data = stored_odds[provider][sport][tournament]
         if data.event_type == "championship":
             return {"teams": data.teams}
         else:
             return {"error": "This tournament is not a championship event"}, 400
     return {"error": "No odds data available"}, 404
 
-@app.get("/api/{sport}/{tournament}/conferences")
-async def get_conference_odds(sport: str, tournament: str):
+@app.get("/api/{provider}/{sport}/{tournament}/conferences")
+async def get_conference_odds(provider: str, sport: str, tournament: str):
     """Get conference odds grouped by conference"""
-    if sport in stored_odds and tournament in stored_odds[sport]:
-        data = stored_odds[sport][tournament]
+    provider = provider.lower()
+    sport = sport.lower()
+    if provider in stored_odds and sport in stored_odds[provider] and tournament in stored_odds[provider][sport]:
+        data = stored_odds[provider][sport][tournament]
         if data.event_type == "conference":
             return {"conferences": data.conferences}
         else:
             return {"error": "This tournament is not a conference event"}, 400
     return {"error": "No odds data available"}, 404
 
-@app.get("/api/{sport}/{tournament}/divisions")
-async def get_division_odds(sport: str, tournament: str):
+@app.get("/api/{provider}/{sport}/{tournament}/divisions")
+async def get_division_odds(provider: str, sport: str, tournament: str):
     """Get division odds grouped by division"""
-    if sport in stored_odds and tournament in stored_odds[sport]:
-        data = stored_odds[sport][tournament]
+    provider = provider.lower()
+    sport = sport.lower()
+    if provider in stored_odds and sport in stored_odds[provider] and tournament in stored_odds[provider][sport]:
+        data = stored_odds[provider][sport][tournament]
         if data.event_type == "division":
             return {"divisions": data.divisions}
         else:
             return {"error": "This tournament is not a division event"}, 400
-    return {"error": "No odds data available"}, 404
+
+
+def _count_total_teams(odds_data: OddsData) -> int:
+    """Count total teams in odds data based on event type.
+    
+    Args:
+        odds_data: The odds data to count teams from
+        
+    Returns:
+        Total number of teams
+    """
+    if odds_data.event_type == "championship":
+        return len(odds_data.teams)
+    elif odds_data.event_type == "conference":
+        return sum(len(conf.teams) for conf in odds_data.conferences)
+    elif odds_data.event_type == "division":
+        return sum(len(div.teams) for div in odds_data.divisions)
+    return 0
+
+
+def _has_odds_data(provider: str, sport: str, tournament: str) -> bool:
+    """Check if odds data exists for the given parameters.
+    
+    Args:
+        provider: The odds provider
+        sport: The sport
+        tournament: The tournament type
+        
+    Returns:
+        True if data exists, False otherwise
+    """
+    return (
+        provider in stored_odds
+        and sport in stored_odds[provider]
+        and tournament in stored_odds[provider][sport]
+    )

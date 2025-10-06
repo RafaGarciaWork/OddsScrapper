@@ -1,3 +1,20 @@
+"""DraftKings Sports Odds Scraper with GUI Interface
+
+This module provides a comprehensive solution for scraping sports odds from DraftKings
+and sending the data to a FastAPI backend. It supports multiple sports (NFL, NBA, WNBA)
+and different tournament types (championship, conference, division).
+
+Classes:
+    ScraperUI: Main GUI application for selecting and scraping odds
+
+Functions:
+    scrape_odds: Main scraping function that handles different event types
+    scrape_championship_odds: Scrapes flat list of teams for championships
+    scrape_conference_odds: Scrapes teams grouped by conference
+    scrape_division_odds: Scrapes teams grouped by division
+    scrape_simple_odds: Fallback scraper for unknown event types
+"""
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 import requests
@@ -5,53 +22,63 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import time
+from typing import Dict, List, Any
 
 # Configuration for sports, tournaments, URLs, and endpoints
 CONFIG = {
     "NFL": {
         "Super Bowl": {
             "url": "https://sportsbook.draftkings.com/leagues/football/nfl?category=futures&subcategory=super-bowl",
-            "endpoint": "http://localhost:8000/api/nfl/superbowl",
+            "endpoint": "http://localhost:8000/api/draftkings/nfl/super-bowl",
             "event_type": "championship"
         },
         "Conference Winner": {
             "url": "https://sportsbook.draftkings.com/leagues/football/nfl?category=futures&subcategory=conference-winner",
-            "endpoint": "http://localhost:8000/api/nfl/conference",
+            "endpoint": "http://localhost:8000/api/draftkings/nfl/conference-winner",
             "event_type": "conference"
         },
         "Division Winner": {
             "url": "https://sportsbook.draftkings.com/leagues/football/nfl?category=futures&subcategory=division-winner",
-            "endpoint": "http://localhost:8000/api/nfl/division",
+            "endpoint": "http://localhost:8000/api/draftkings/nfl/division-winner",
             "event_type": "division"
         }
     },
     "NBA": {
         "Championship": {
             "url": "https://sportsbook.draftkings.com/leagues/basketball/nba?category=team-futures&subcategory=champion",
-            "endpoint": "http://localhost:8000/api/nba/championship",
+            "endpoint": "http://localhost:8000/api/draftkings/nba/championship",
             "event_type": "championship"
         },
         "Conference": {
             "url": "https://sportsbook.draftkings.com/leagues/basketball/nba?category=team-futures&subcategory=conference-winner",
-            "endpoint": "http://localhost:8000/api/nba/conference",
+            "endpoint": "http://localhost:8000/api/draftkings/nba/conference-winner",
             "event_type": "conference"
         },
         "Division Winner": {
             "url": "https://sportsbook.draftkings.com/leagues/basketball/nba?category=team-futures&subcategory=division-winner",
-            "endpoint": "http://localhost:8000/api/nba/division",
+            "endpoint": "http://localhost:8000/api/draftkings/nba/division-winner",
             "event_type": "division"
         }
     },
     "WNBA": {
         "Championship": {
             "url": "https://sportsbook.draftkings.com/leagues/basketball/wnba?category=team-futures&subcategory=championship-winner",
-            "endpoint": "http://localhost:8000/api/wnba/championship",
+            "endpoint": "http://localhost:8000/api/draftkings/wnba/championship",
             "event_type": "championship"
         }
     }
 }
 
-def scrape_odds(url, event_type="championship"):
+def scrape_odds(url: str, event_type: str = "championship") -> Dict[str, Any]:
+    """Main scraping function that handles different event types.
+    
+    Args:
+        url: The DraftKings URL to scrape
+        event_type: Type of event ('championship', 'conference', 'division')
+        
+    Returns:
+        Dictionary containing scraped odds data structured by event type
+    """
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-gpu")
@@ -59,195 +86,223 @@ def scrape_odds(url, event_type="championship"):
 
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
-    time.sleep(5)  # Adjust based on page load time; consider WebDriverWait
+    time.sleep(5)  # Wait for JavaScript to load content
 
     soup = BeautifulSoup(driver.page_source, "html.parser")
     driver.quit()
 
-    if event_type == "championship":
-        return scrape_championship_odds(soup)
-    elif event_type == "conference":
-        return scrape_conference_odds(soup)
-    elif event_type == "division":
-        return scrape_division_odds(soup)
-    else:
-        # Fallback to simple scraping
-        return scrape_simple_odds(soup)
+    # Route to appropriate scraper based on event type
+    scrapers = {
+        "championship": scrape_championship_odds,
+        "conference": scrape_conference_odds,
+        "division": scrape_division_odds
+    }
+    
+    return scrapers.get(event_type, scrape_simple_odds)(soup)
 
-def scrape_championship_odds(soup):
-    """Scrape championship odds - flat list of all teams"""
+def scrape_championship_odds(soup: BeautifulSoup) -> Dict[str, Any]:
+    """Scrape championship odds as a flat list of all teams.
+    
+    Args:
+        soup: BeautifulSoup object of the scraped page
+        
+    Returns:
+        Dictionary with event_type and teams list
+    """
     team_elements = soup.find_all("span", {"data-testid": "button-title-market-board"})
     odds_elements = soup.find_all("span", {"data-testid": "button-odds-market-board"})
     
-    teams = []
-    for team, odd in zip(team_elements, odds_elements):
-        teams.append({
-            "team": team.get_text(strip=True),
-            "odds": odd.get_text(strip=True)
-        })
+    teams = [
+        {"team": team.get_text(strip=True), "odds": odd.get_text(strip=True)}
+        for team, odd in zip(team_elements, odds_elements)
+    ]
     
-    return {
-        "event_type": "championship",
-        "teams": teams
-    }
+    return {"event_type": "championship", "teams": teams}
 
-def scrape_conference_odds(soup):
-    """Scrape conference odds - teams grouped by conference"""
-    conference_titles = soup.find_all("div", class_="cb-title__simple-title cb-title__nav-title")
-    conferences = []
+def scrape_conference_odds(soup: BeautifulSoup) -> Dict[str, Any]:
+    """Scrape conference odds with teams grouped by conference.
     
-    for title in conference_titles:
-        conference_text = title.get_text(strip=True)
-        # Extract conference (e.g., "NFC" or "AFC" from "NFL 2025/26 - NFC")
-        conference = conference_text.split(" - ")[-1]  # Gets "NFC" or "AFC"
+    Args:
+        soup: BeautifulSoup object of the scraped page
         
-        # Find all team and odds spans following this title
-        next_elements = title.find_all_next(["span"], limit=None)
-        teams = []
-        odds = []
-        collecting = False
-        
-        for element in next_elements:
-            if element.get("data-testid") == "button-title-market-board":
-                teams.append(element.get_text(strip=True))
-                collecting = True
-            elif element.get("data-testid") == "button-odds-market-board" and collecting:
-                odds.append(element.get_text(strip=True))
-                collecting = False  # Reset after finding an odd to ensure proper pairing
-            
-            # Stop if we hit the next conference title or end of relevant data
-            if element.find_parent("div", class_="cb-title__simple-title cb-title__nav-title") and element != title:
-                break
-        
-        # Pair teams and odds
-        team_odds = []
-        for team, odd in zip(teams, odds):
-            team_odds.append({
-                "team": team,
-                "odds": odd
-            })
-        
-        if team_odds:  # Only add if we found teams
-            conferences.append({
-                "conference": conference,
-                "teams": team_odds
-            })
+    Returns:
+        Dictionary with event_type, conferences list, and validation data
+    """
+    team_spans = soup.find_all("span", {"data-testid": "button-title-market-board"})
+    odds_spans = soup.find_all("span", {"data-testid": "button-odds-market-board"})
+    
+    # Create teams list with bounds checking
+    teams = [
+        {"team": team_span.get_text(strip=True), "odds": odds_spans[i].get_text(strip=True)}
+        for i, team_span in enumerate(team_spans)
+        if i < len(odds_spans)
+    ]
+    
+    # Split teams into conferences (first half = NFC, second half = AFC)
+    total_teams = len(teams)
+    mid_point = total_teams // 2
+    
+    conferences = [
+        {"conference": "NFC", "teams": teams[:mid_point]},
+        {"conference": "AFC", "teams": teams[mid_point:]}
+    ]
     
     return {
         "event_type": "conference",
-        "conferences": conferences
+        "conferences": conferences,
+        "validation": {
+            "expected_conferences": 2,
+            "found_conferences": len(conferences),
+            "expected_teams_per_conference": 16,
+            "total_teams": total_teams
+        }
     }
 
-def scrape_division_odds(soup):
-    """Scrape division odds - teams grouped by division"""
-    # Look for division titles (e.g., "NFC East", "AFC West")
-    division_titles = soup.find_all("div", class_="cb-title__simple-title cb-title__nav-title")
-    divisions = []
+def scrape_division_odds(soup: BeautifulSoup) -> Dict[str, Any]:
+    """Scrape division odds with teams grouped by division.
     
-    for title in division_titles:
+    Args:
+        soup: BeautifulSoup object of the scraped page
+        
+    Returns:
+        Dictionary with event_type, divisions list, and validation data
+    """
+    division_titles = soup.find_all("div", class_="cb-title__simple-title cb-title__nav-title")
+    team_spans = soup.find_all("span", {"data-testid": "button-title-market-board"})
+    odds_spans = soup.find_all("span", {"data-testid": "button-odds-market-board"})
+    
+    # Create teams list with bounds checking
+    teams = [
+        {"team": team_span.get_text(strip=True), "odds": odds_spans[i].get_text(strip=True)}
+        for i, team_span in enumerate(team_spans)
+        if i < len(odds_spans)
+    ]
+    
+    # Extract division names and create divisions
+    divisions = []
+    teams_per_division = len(teams) // len(division_titles) if division_titles else 0
+    
+    for i, title in enumerate(division_titles):
         division_text = title.get_text(strip=True)
-        # Extract division info (e.g., "NFC East" from "NFL 2025/26 - NFC East")
-        full_division = division_text.split(" - ")[-1]  # Gets "NFC East" or "AFC West"
+        full_division = division_text.split(" - ")[-1]  # Extract "NFC East" from full title
         
-        # Split into conference and division
+        # Parse conference and division
         parts = full_division.split()
-        if len(parts) >= 2:
-            conference = parts[0]  # "NFC" or "AFC"
-            division = " ".join(parts[1:])  # "East", "West", "South", "North"
-        else:
-            conference = full_division
-            division = "Unknown"
+        conference = parts[0] if len(parts) >= 2 else full_division
+        division = " ".join(parts[1:]) if len(parts) >= 2 else "Unknown"
         
-        # Find all team and odds spans following this title
-        next_elements = title.find_all_next(["span"], limit=None)
-        teams = []
-        odds = []
-        collecting = False
+        # Get teams for this division
+        start_idx = i * teams_per_division
+        end_idx = start_idx + teams_per_division if i < len(division_titles) - 1 else len(teams)
         
-        for element in next_elements:
-            if element.get("data-testid") == "button-title-market-board":
-                teams.append(element.get_text(strip=True))
-                collecting = True
-            elif element.get("data-testid") == "button-odds-market-board" and collecting:
-                odds.append(element.get_text(strip=True))
-                collecting = False
-            
-            # Stop if we hit the next division title or end of relevant data
-            if element.find_parent("div", class_="cb-title__simple-title cb-title__nav-title") and element != title:
-                break
-        
-        # Pair teams and odds
-        team_odds = []
-        for team, odd in zip(teams, odds):
-            team_odds.append({
-                "team": team,
-                "odds": odd
-            })
-        
-        if team_odds:  # Only add if we found teams
+        division_teams = teams[start_idx:end_idx]
+        if division_teams:
             divisions.append({
                 "division": division,
                 "conference": conference,
-                "teams": team_odds
+                "teams": division_teams
             })
     
     return {
         "event_type": "division",
-        "divisions": divisions
+        "divisions": divisions,
+        "validation": {
+            "expected_divisions": 8,
+            "found_divisions": len(divisions),
+            "expected_teams_per_division": 4,
+            "total_teams": len(teams)
+        }
     }
 
-def scrape_simple_odds(soup):
-    """Fallback simple scraping for unknown event types"""
+def scrape_simple_odds(soup: BeautifulSoup) -> Dict[str, Any]:
+    """Fallback scraper for unknown event types.
+    
+    Args:
+        soup: BeautifulSoup object of the scraped page
+        
+    Returns:
+        Dictionary with event_type and teams list (defaults to championship format)
+    """
     team_elements = soup.find_all("span", {"data-testid": "button-title-market-board"})
     odds_elements = soup.find_all("span", {"data-testid": "button-odds-market-board"})
     
-    teams = []
-    for team, odd in zip(team_elements, odds_elements):
-        teams.append({
-            "team": team.get_text(strip=True),
-            "odds": odd.get_text(strip=True)
-        })
+    teams = [
+        {"team": team.get_text(strip=True), "odds": odd.get_text(strip=True)}
+        for team, odd in zip(team_elements, odds_elements)
+    ]
     
-    return {
-        "event_type": "championship",
-        "teams": teams
-    }
+    return {"event_type": "championship", "teams": teams}
 
 class ScraperUI:
-    def __init__(self, root):
+    """Main GUI application for selecting and scraping DraftKings odds.
+    
+    This class provides a simple interface for users to select a sport and tournament,
+    scrape the corresponding odds data, and send it to the FastAPI backend.
+    
+    Attributes:
+        root: The main Tkinter window
+        sport_var: StringVar for selected sport
+        tournament_var: StringVar for selected tournament
+        status_label: Label for displaying operation status
+    """
+    
+    def __init__(self, root: tk.Tk) -> None:
+        """Initialize the ScraperUI application.
+        
+        Args:
+            root: The main Tkinter window
+        """
         self.root = root
-        self.root.title("Sports Odds Scraper")
+        self.root.title("DraftKings Sports Odds Scraper")
         self.root.geometry("400x300")
-
+        
+        self._setup_ui()
+    
+    def _setup_ui(self) -> None:
+        """Set up the user interface components."""
         # Sport selection
-        tk.Label(root, text="Select Sport:").pack(pady=5)
+        tk.Label(self.root, text="Select Sport:").pack(pady=5)
         self.sport_var = tk.StringVar()
-        self.sport_dropdown = ttk.Combobox(root, textvariable=self.sport_var, state="readonly")
+        self.sport_dropdown = ttk.Combobox(
+            self.root, textvariable=self.sport_var, state="readonly"
+        )
         self.sport_dropdown["values"] = list(CONFIG.keys())
         self.sport_dropdown.pack(pady=5)
         self.sport_dropdown.bind("<<ComboboxSelected>>", self.update_tournaments)
 
         # Tournament selection
-        tk.Label(root, text="Select Tournament:").pack(pady=5)
+        tk.Label(self.root, text="Select Tournament:").pack(pady=5)
         self.tournament_var = tk.StringVar()
-        self.tournament_dropdown = ttk.Combobox(root, textvariable=self.tournament_var, state="readonly")
+        self.tournament_dropdown = ttk.Combobox(
+            self.root, textvariable=self.tournament_var, state="readonly"
+        )
         self.tournament_dropdown.pack(pady=5)
 
-        # Go button
-        self.go_button = tk.Button(root, text="Go", command=self.scrape_and_send)
+        # Action button
+        self.go_button = tk.Button(self.root, text="Scrape & Send", command=self.scrape_and_send)
         self.go_button.pack(pady=10)
 
         # Status display
-        self.status_label = tk.Label(root, text="", wraplength=350)
+        self.status_label = tk.Label(self.root, text="", wraplength=350)
         self.status_label.pack(pady=10)
 
-    def update_tournaments(self, event):
+    def update_tournaments(self, event: tk.Event) -> None:
+        """Update tournament dropdown when sport selection changes.
+        
+        Args:
+            event: Tkinter event object (unused but required by bind)
+        """
         sport = self.sport_var.get()
         if sport in CONFIG:
             self.tournament_dropdown["values"] = list(CONFIG[sport].keys())
             self.tournament_var.set("")  # Reset tournament selection
 
-    def scrape_and_send(self):
+    def scrape_and_send(self) -> None:
+        """Scrape odds data and send to the FastAPI backend.
+        
+        Handles the complete workflow: validation, scraping, and API communication.
+        Updates the UI with progress and results.
+        """
         sport = self.sport_var.get()
         tournament = self.tournament_var.get()
 
@@ -256,16 +311,16 @@ class ScraperUI:
             return
 
         try:
-            url = CONFIG[sport][tournament]["url"]
-            endpoint = CONFIG[sport][tournament]["endpoint"]
-            event_type = CONFIG[sport][tournament]["event_type"]
+            config = CONFIG[sport][tournament]
+            url = config["url"]
+            endpoint = config["endpoint"]
+            event_type = config["event_type"]
 
             # Scrape data
             self.status_label.config(text="Scraping data...")
             self.root.update()
             results = scrape_odds(url, event_type)
             
-            # Debug: Print what we scraped
             print(f"Scraped {event_type} data: {results}")
 
             # Send to endpoint
@@ -274,16 +329,26 @@ class ScraperUI:
                 response_data = response.json()
                 total_teams = response_data.get("total_teams", 0)
                 event_type = response_data.get("event_type", "unknown")
-                self.status_label.config(text=f"Success! Data sent to {endpoint}\nEvent Type: {event_type}\nTotal Teams: {total_teams}")
+                self.status_label.config(
+                    text=f"Success! Data sent to {endpoint}\n"
+                         f"Event Type: {event_type}\nTotal Teams: {total_teams}"
+                )
             else:
                 error_msg = f"Error {response.status_code}: {response.text}"
                 print(f"API Error: {error_msg}")
-                self.status_label.config(text=f"Error: Failed to send data to {endpoint}\n{error_msg}")
+                self.status_label.config(
+                    text=f"Error: Failed to send data to {endpoint}\n{error_msg}"
+                )
         except Exception as e:
             self.status_label.config(text=f"Error: {str(e)}")
             messagebox.showerror("Error", f"Failed to scrape or send data: {str(e)}")
 
-if __name__ == "__main__":
+def main() -> None:
+    """Main entry point for the application."""
     root = tk.Tk()
     app = ScraperUI(root)
     root.mainloop()
+
+
+if __name__ == "__main__":
+    main()
