@@ -1,8 +1,14 @@
 """DraftKings Sports Odds Scraper (CLI)
 
+<<<<<<< HEAD
 This module scrapes sports odds from DraftKings and posts the data to the new
 CLM API backend. It supports multiple sports and tournament types.
 Designed for CLI/cron usage on Windows Server 2012.
+=======
+This module scrapes sports odds from DraftKings and posts the data to a FastAPI
+backend. It supports multiple sports (NFL, NBA, WNBA) and tournament types
+(championship, conference, division). Designed for CLI/cron usage.
+>>>>>>> 0967c96d35ccf3ba31b1ed299fb51952f4f64c4c
 
 Functions:
     scrape_odds: Main scraping function that handles different event types
@@ -16,20 +22,31 @@ Functions:
 import os
 import json
 import logging
+<<<<<<< HEAD
 from typing import Dict, List, Any, Optional
 from datetime import datetime
+=======
+from typing import Dict, List, Any
+>>>>>>> 0967c96d35ccf3ba31b1ed299fb51952f4f64c4c
 
 import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+<<<<<<< HEAD
 from selenium.webdriver.chrome.service import Service
+=======
+>>>>>>> 0967c96d35ccf3ba31b1ed299fb51952f4f64c4c
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
+<<<<<<< HEAD
 from pydantic import BaseModel
 from webdriver_manager.chrome import ChromeDriverManager
+=======
+from datetime import datetime
+>>>>>>> 0967c96d35ccf3ba31b1ed299fb51952f4f64c4c
 
 # Initialize logging early
 logging.basicConfig(
@@ -41,6 +58,7 @@ logger = logging.getLogger("draftkings_scraper")
 load_dotenv()
 
 # Base URL for API, configurable via env var
+<<<<<<< HEAD
 API_BASE_URL = os.getenv("API_BASE_URL", "https://clmapi.sportsfanwagers.com")
 
 # Pydantic models for the new API structure
@@ -91,10 +109,16 @@ class GameData(BaseModel):
     TournamentPlacestoPaid: str = "1"
 
 # Configuration for sports, tournaments, URLs, leagues, and game types
+=======
+API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
+
+# Configuration for sports, tournaments, URLs, and endpoints
+>>>>>>> 0967c96d35ccf3ba31b1ed299fb51952f4f64c4c
 CONFIG = {
     "NFL": {
         "Super Bowl": {
             "url": "https://sportsbook.draftkings.com/leagues/football/nfl?category=futures&subcategory=super-bowl",
+<<<<<<< HEAD
             "event_type": "championship",
             "id_league": 3101,  # NFL League ID
             "id_game_type": 1,   # Championship game type
@@ -124,6 +148,23 @@ CONFIG = {
             "description": "NBA Championship"
         }
     }
+=======
+            "endpoint": f"{API_BASE_URL}/api/draftkings/nfl/super-bowl",
+            "event_type": "championship"
+        },
+        "Conference Winner": {
+            "url": "https://sportsbook.draftkings.com/leagues/football/nfl?category=futures&subcategory=conference-winner",
+            "endpoint": f"{API_BASE_URL}/api/draftkings/nfl/conference-winner",
+            "event_type": "conference"
+        },
+        "Division Winner": {
+            "url": "https://sportsbook.draftkings.com/leagues/football/nfl?category=futures&subcategory=division-winner",
+            "endpoint": f"{API_BASE_URL}/api/draftkings/nfl/division-winner",
+            "event_type": "division"
+        }
+    },
+    
+>>>>>>> 0967c96d35ccf3ba31b1ed299fb51952f4f64c4c
 }
 
 def scrape_odds(url: str, event_type: str = "championship") -> Dict[str, Any]:
@@ -137,6 +178,7 @@ def scrape_odds(url: str, event_type: str = "championship") -> Dict[str, Any]:
         Dictionary containing scraped odds data structured by event type
     """
     chrome_options = Options()
+<<<<<<< HEAD
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
@@ -155,6 +197,14 @@ def scrape_odds(url: str, event_type: str = "championship") -> Dict[str, Any]:
     except Exception as exc:
         logger.warning("Failed to use webdriver-manager, trying default Chrome driver: %s", exc)
         driver = webdriver.Chrome(options=chrome_options)
+=======
+    chrome_options.add_argument("--headless=new")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--window-size=1920,1080")
+
+    driver = webdriver.Chrome(options=chrome_options)
+>>>>>>> 0967c96d35ccf3ba31b1ed299fb51952f4f64c4c
     try:
         driver.get(url)
         # Explicit wait for odds buttons to appear
@@ -309,6 +359,7 @@ def scrape_simple_odds(soup: BeautifulSoup) -> Dict[str, Any]:
     
     return {"event_type": "championship", "teams": teams}
 
+<<<<<<< HEAD
 def create_game(game_data: GameData) -> Optional[int]:
     """Create a game in the CLM API and return the game ID.
     
@@ -367,6 +418,8 @@ def submit_game_odds(game_id: int, teams_data: List[Dict[str, Any]]) -> bool:
         logger.exception("Exception submitting odds for game %s: %s", game_id, exc)
         return False
 
+=======
+>>>>>>> 0967c96d35ccf3ba31b1ed299fb51952f4f64c4c
 def _post_with_retries(endpoint: str, payload: Dict[str, Any], max_retries: int = 3) -> requests.Response:
     last_exc: Exception | None = None
     for attempt in range(1, max_retries + 1):
@@ -384,6 +437,7 @@ def _post_with_retries(endpoint: str, payload: Dict[str, Any], max_retries: int 
 
 
 def run_scraper() -> None:
+<<<<<<< HEAD
     """Loop through all CONFIG items, scrape, create games, and submit odds to CLM API."""
     for sport, tournaments in CONFIG.items():
         for tournament, conf in tournaments.items():
@@ -442,6 +496,25 @@ def run_scraper() -> None:
                 else:
                     logger.error("Failed to submit odds for %s - %s", sport, tournament)
                 
+=======
+    """Loop through all CONFIG items, scrape, and send to API."""
+    for sport, tournaments in CONFIG.items():
+        for tournament, conf in tournaments.items():
+            url = conf["url"]
+            endpoint = conf["endpoint"]
+            event_type = conf["event_type"]
+            logger.info("Scraping %s - %s", sport, tournament)
+            try:
+                results = scrape_odds(url, event_type)
+                logger.info("Scraped %s items for %s - %s", (
+                    len(results.get("teams", []))
+                    if event_type == "championship"
+                    else sum(len(c.get("teams", [])) for c in results.get("conferences", []))
+                    if event_type == "conference"
+                    else sum(len(d.get("teams", [])) for d in results.get("divisions", []))
+                ), sport, tournament)
+
+>>>>>>> 0967c96d35ccf3ba31b1ed299fb51952f4f64c4c
                 # Save to JSON for inspection
                 save_dir = os.path.join(os.getcwd(), "scrapes")
                 os.makedirs(save_dir, exist_ok=True)
@@ -455,15 +528,29 @@ def run_scraper() -> None:
                         "sport": sport,
                         "tournament": tournament,
                         "event_type": event_type,
+<<<<<<< HEAD
                         "game_id": game_id,
                         "data": results
                     }, f, ensure_ascii=False, indent=2)
                 logger.info("Saved scrape to %s", file_path)
                 
+=======
+                        "data": results
+                    }, f, ensure_ascii=False, indent=2)
+                logger.info("Saved scrape to %s", file_path)
+
+                response = _post_with_retries(endpoint, results)
+                if response.status_code == 200:
+                    data = response.json()
+                    logger.info("Posted to %s | event=%s total_teams=%s", endpoint, data.get("event_type"), data.get("total_teams"))
+                else:
+                    logger.error("Failed POST to %s | status=%s body=%s", endpoint, response.status_code, response.text)
+>>>>>>> 0967c96d35ccf3ba31b1ed299fb51952f4f64c4c
             except Exception as exc:
                 logger.exception("Failed processing %s - %s: %s", sport, tournament, exc)
 
 
+<<<<<<< HEAD
 def test_payload_generation():
     """Test function to generate both API payloads without calling endpoints.
     
@@ -606,3 +693,7 @@ if __name__ == "__main__":
     
     # Uncomment the line below to run the actual scraper
     # run_scraper()
+=======
+if __name__ == "__main__":
+    run_scraper()
+>>>>>>> 0967c96d35ccf3ba31b1ed299fb51952f4f64c4c

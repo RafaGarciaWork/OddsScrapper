@@ -1,0 +1,53 @@
+    uvicorn V1.draftkings.main:app --reload
+    ```
+  - The database file `odds.db` will be created in the project root automatically.
+
+- Scraper:
+  - Create a `.env` file in the project root with:
+    ```
+    API_BASE_URL=http://localhost:8000
+    ```
+  - Run the scraper (CLI):
+    ```bash
+    python -m V1.draftkings.ScrapperUI
+    ```
+  - It will loop through all `CONFIG` entries, scrape, and POST to the configured API.
+
+### Notes and caveats
+
+- Chrome/Driver:
+  - The code still expects a working Chrome + ChromeDriver pair on PATH. Consider integrating `webdriver-manager` usage later to auto-manage drivers if desired.
+- Security:
+  -  API keys/JWT are deferred until later.
+
+- Config:
+  - Switch API targets by setting `API_BASE_URL` in `.env`.
+
+- Data model:
+  - SQLite stores the original JSON payload; endpoints continue returning the same structures to the client.
+
+- Testing:
+  - Add tests when convenient. Current changes keep behavior straightforward.
+
+- Performance:
+  - For larger scraping sets, consider threading or async; current loop is sequential.
+
+- Linting:
+  - No linter errors introduced.
+
+- Removed Tkinter dependency implicitly from the scraper code; `tk` remains in requirements if you still need it elsewhere. Remove it if unnecessary.
+
+- Endpoints remained the same; frontend can integrate as-is.
+
+- SQLite schema is simple and uses a single JSON blob per key; can evolve to normalized tables later if needed.
+
+
+
+
+
+The odds table structure:
+provider TEXT
+sport TEXT
+tournament TEXT
+data TEXT (JSON payload)
+PRIMARY KEY(provider, sport, tournament)
