@@ -1,2 +1,11 @@
 /venv
 __pycache__/
+.env
+V1/betonline/
+__pycache__
+V1/UI/
+V1/Draftkings/laterScale.py
+laterScale.py
+__init__.py
+Scrapper_API-master/
+Scrapper_API-master.zip

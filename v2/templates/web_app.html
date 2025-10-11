@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DraftKings Odds Scraper - Testing Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .url-section {
+            margin-bottom: 40px;
+        }
+
+        .url-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .url-input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .url-input {
+            flex: 1;
+            min-width: 300px;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .preset-urls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .preset-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .preset-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .preset-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .preset-card p {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .preset-url {
+            font-family: monospace;
+            background: #e9ecef;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            word-break: break-all;
+        }
+
+        .results-section {
+            margin-top: 40px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .result-item {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .result-url {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+
+        .odds-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .odds-item {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .team-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .odds-value {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .config-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+
+        .config-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .config-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .config-input {
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .config-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .payload-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+
+        .payload-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .payload-container {
+            background: white;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #dee2e6;
+        }
+
+        .payload-title {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .payload-json {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .endpoint-info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .endpoint-url {
+            font-family: 'Courier New', monospace;
+            background: #fff;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            word-break: break-all;
+        }
+
+        .submission-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+
+        .submission-section h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .submission-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .submission-status {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .submission-status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            font-weight: 600;
+        }
+
+        .submission-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            font-weight: 600;
+        }
+
+        .submission-status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            font-weight: 600;
+        }
+
+        /* Special styling for multi-line submission status */
+        .submission-status.multi-line-success {
+            background: #ffffff;
+            color: #155724;
+            border: 2px solid #28a745;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+        }
+
+        .submission-status.multi-line-error {
+            background: #ffffff;
+            color: #721c24;
+            border: 2px solid #dc3545;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(220, 53, 69, 0.2);
+        }
+
+        .submission-status.multi-line-info {
+            background: #ffffff;
+            color: #0c5460;
+            border: 2px solid #17a2b8;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(23, 162, 184, 0.2);
+        }
+
+        /* Enhanced text styling for better readability */
+        .submission-status strong {
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .submission-status h4, .submission-status h5 {
+            font-weight: 700;
+            color: #000000;
+            margin: 8px 0;
+        }
+
+        .submission-status p {
+            font-weight: 600;
+            color: #333333;
+            margin: 4px 0;
+        }
+
+        .submission-status ul, .submission-status ol {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        .submission-status li {
+            font-weight: 600;
+            color: #333333;
+            margin: 4px 0;
+        }
+
+        /* Tournament details styling */
+        .submission-status .tournament-details {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .submission-status .summary-section {
+            background: #e9ecef;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-left: 4px solid #6c757d;
+        }
+
+        .confirmation-dialog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .confirmation-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .confirmation-content h3 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .confirmation-content p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .confirmation-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .conference-section, .division-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+
+        .conference-section h4, .division-section h4 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .tournament-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .tournament-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .tournament-card h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .odds-preview {
+            background: white;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid #dee2e6;
+        }
+
+        .odds-preview h5 {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .odds-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .odds-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #f1f3f4;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .odds-item:last-child {
+            border-bottom: none;
+        }
+
+        .tournament-actions {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 DraftKings Odds Scraper</h1>
+            <p>Test multiple URLs and extract betting odds efficiently</p>
+        </div>
+
+        <div class="content">
+            <div class="url-section">
+                <h2>📝 Enter DraftKings URL & Configuration</h2>
+                <div class="url-input-group">
+                    <input type="url" id="urlInput" class="url-input" placeholder="https://sportsbook.draftkings.com/leagues/football/nfl?category=futures&subcategory=super-bowl">
+                    <input type="number" id="startIdInput" class="url-input" placeholder="1000000" min="1000000" max="9999999" value="1000000">
+                    <button onclick="generatePayloads()" class="btn btn-primary">Generate API Payloads</button>
+                    <button onclick="scrapeSingleUrl()" class="btn btn-secondary">Scrape Only</button>
+                    <button onclick="clearResults()" class="btn btn-secondary">Clear Results</button>
+                </div>
+                <div class="config-section">
+                    <h3>⚙️ Sport Configuration</h3>
+                    <div class="config-inputs">
+                        <input type="number" id="leagueIdInput" class="config-input" placeholder="League ID (3101)" value="3101">
+                        <input type="number" id="gameTypeInput" class="config-input" placeholder="Game Type (1)" value="1">
+                        <select id="eventTypeInput" class="config-input">
+                            <option value="championship">Championship</option>
+                            <option value="conference">Conference Winner</option>
+                            <option value="division">Division Winner</option>
+                            <option value="multi_line">Multi-Line Tournament (Golf/Auto Racing)</option>
+                        </select>
+                        <input type="text" id="descriptionInput" class="config-input" placeholder="Description" value="DraftKings Scraped Data">
+                    </div>
+                </div>
+            </div>
+
+            <div class="url-section">
+                <h2>🚀 Preset URLs for Testing</h2>
+                <div class="preset-urls">
+                    <div class="preset-card" onclick="usePresetUrl(this)">
+                        <h3>🏈 NFL Super Bowl</h3>
+                        <p>Super Bowl championship odds</p>
+                        <div class="preset-url">https://sportsbook.draftkings.com/leagues/football/nfl?category=futures&subcategory=super-bowl</div>
+                    </div>
+                    
+                    <div class="preset-card" onclick="usePresetUrl(this)">
+                        <h3>🏈 NFL Conference Winner</h3>
+                        <p>Conference championship odds</p>
+                        <div class="preset-url">https://sportsbook.draftkings.com/leagues/football/nfl?category=futures&subcategory=conference-winner</div>
+                    </div>
+                    
+                    <div class="preset-card" onclick="usePresetUrl(this)">
+                        <h3>🏈 NFL Division Winner</h3>
+                        <p>Division championship odds</p>
+                        <div class="preset-url">https://sportsbook.draftkings.com/leagues/football/nfl?category=futures&subcategory=division-winner</div>
+                    </div>
+                    
+                    <div class="preset-card" onclick="usePresetUrl(this)">
+                        <h3>🏀 NBA Championship</h3>
+                        <p>NBA championship odds</p>
+                        <div class="preset-url">https://sportsbook.draftkings.com/leagues/basketball/nba?category=futures&subcategory=nba-championship</div>
+                    </div>
+                    
+                    <div class="preset-card" onclick="usePresetUrl(this)">
+                        <h3>⚾ MLB World Series</h3>
+                        <p>MLB championship odds</p>
+                        <div class="preset-url">https://sportsbook.draftkings.com/leagues/baseball/mlb?category=futures&subcategory=world-series</div>
+                    </div>
+                    
+                    <div class="preset-card" onclick="usePresetUrl(this)">
+                        <h3>🏒 NHL Stanley Cup</h3>
+                        <p>NHL championship odds</p>
+                        <div class="preset-url">https://sportsbook.draftkings.com/leagues/hockey/nhl?category=futures&subcategory=stanley-cup</div>
+                    </div>
+                    
+                    <div class="preset-card" onclick="usePresetUrl(this)">
+                        <h3>⛳ Golf Tournament</h3>
+                        <p>Golf with Winner, Top 5, Top 10 lines</p>
+                        <div class="preset-url">https://sportsbook.draftkings.com/leagues/golf/pga?category=futures&subcategory=masters</div>
+                    </div>
+                    
+                    <div class="preset-card" onclick="usePresetUrl(this)">
+                        <h3>🏎️ Formula 1 Race</h3>
+                        <p>F1 with Winner, Top 2, Top 4 lines</p>
+                        <div class="preset-url">https://sportsbook.draftkings.com/leagues/auto-racing/formula-1?category=futures&subcategory=race-winner</div>
+                    </div>
+                    
+                    <div class="preset-card" onclick="usePresetUrl(this)">
+                        <h3>🏁 NASCAR Race</h3>
+                        <p>NASCAR with Winner, Top 3, Top 5 lines</p>
+                        <div class="preset-url">https://sportsbook.draftkings.com/leagues/auto-racing/nascar?category=futures&subcategory=race-winner</div>
+                    </div>
+                </div>
+                
+                <button onclick="scrapeAllPresets()" class="btn btn-success">Scrape All Preset URLs</button>
+            </div>
+
+
+            <div class="stats" id="statsSection" style="display: none;">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalUrls">0</div>
+                    <div class="stat-label">URLs Processed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalOdds">0</div>
+                    <div class="stat-label">Total Odds Found</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="successRate">0%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <h2>📊 Scraping Results</h2>
+                <div id="resultsContainer"></div>
+            </div>
+
+            <div class="payload-section" id="payloadSection" style="display: none;">
+                <h2>🔧 API Payloads Generated</h2>
+                <div id="payloadContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let results = [];
+        let currentScraping = false;
+        let currentPayloads = null;
+
+        function usePresetUrl(card) {
+            const url = card.querySelector('.preset-url').textContent.trim();
+            document.getElementById('urlInput').value = url;
+            
+            // Auto-detect tournament type based on URL
+            const urlLower = url.toLowerCase();
+            if (urlLower.includes('golf') || urlLower.includes('pga') || urlLower.includes('masters')) {
+                document.getElementById('eventTypeInput').value = 'multi_line';
+            } else if (urlLower.includes('formula-1') || urlLower.includes('nascar') || urlLower.includes('racing')) {
+                document.getElementById('eventTypeInput').value = 'multi_line';
+            } else {
+                document.getElementById('eventTypeInput').value = 'championship';
+            }
+        }
+
+
+        async function submitMultiLineTournament(tournamentIndex) {
+            try {
+                if (!window.multiLineTournamentData) {
+                    alert('No tournament data available');
+                    return;
+                }
+                
+                const tournament = window.multiLineTournamentData.tournaments[tournamentIndex];
+                const lineName = tournament.line_name;
+                
+                if (!confirm(`Are you sure you want to create the "${lineName}" tournament? This will submit to the CLM API.`)) {
+                    return;
+                }
+                
+                showSubmissionStatus('info', `Creating ${lineName} tournament...`);
+                
+                const response = await fetch('/api/submit-multi-line-tournaments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tournaments: [tournament]
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const result = data.results[0];
+                    if (result.success) {
+                        showSubmissionStatus('success', `✅ ${lineName} tournament created successfully!<br><strong>Game ID:</strong> ${result.game_id}<br><strong>Odds Count:</strong> ${result.odds_count}`);
+                    } else {
+                        showSubmissionStatus('error', `❌ ${lineName} tournament failed:<br>${result.error}`);
+                    }
+                } else {
+                    showSubmissionStatus('error', `❌ Submission failed: ${data.error}`);
+                }
+            } catch (error) {
+                console.error('Error in submitMultiLineTournament:', error);
+                showSubmissionStatus('error', `❌ Error: ${error.message}`);
+            }
+        }
+
+        async function submitAllIndividualTournaments() {
+            try {
+                if (!window.multiLineTournamentData) {
+                    alert('No tournament data available');
+                    return;
+                }
+                
+                const grandPrixName = window.multiLineTournamentData.grand_prix_name || 'Grand Prix';
+                const totalLines = window.multiLineTournamentData.tournaments.length;
+                
+                // Build dynamic list of tournament lines
+                const tournamentLines = window.multiLineTournamentData.tournaments.map(t => `- ${t.line_name}`).join('\n');
+                
+                if (!confirm(`Are you sure you want to create ${totalLines} individual tournaments for ${grandPrixName}?\n\nThis will create separate tournaments for each betting line:\n${tournamentLines}\n\nThis will submit to the CLM API.`)) {
+                    return;
+                }
+                
+                showSubmissionStatus('info', `Creating all individual tournaments for ${grandPrixName}...`);
+                
+                const response = await fetch('/api/submit-all-individual-tournaments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        url: document.getElementById('urlInput').value,
+                        start_id: parseInt(document.getElementById('startIdInput').value),
+                        sport_config: {
+                            id_league: parseInt(document.getElementById('leagueIdInput').value),
+                            id_game_type: parseInt(document.getElementById('gameTypeInput').value),
+                            description: document.getElementById('descriptionInput').value
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const summary = data.summary;
+                    let successMessage = `✅ Successfully created ${summary.successful_lines}/${summary.total_lines} individual tournaments for ${summary.grand_prix}!<br><br>`;
+                    
+                    successMessage += `<div class="tournament-details"><h5>Tournament Details:</h5>`;
+                    data.results.forEach(result => {
+                        if (result.success) {
+                            successMessage += `<p><strong>🏆 ${result.tournament_name}</strong><br>`;
+                            successMessage += `&nbsp;&nbsp;Game ID: ${result.game_id}<br>`;
+                            successMessage += `&nbsp;&nbsp;Drivers: ${result.drivers.length}<br>`;
+                            successMessage += `&nbsp;&nbsp;Odds: ${result.odds_count}<br>`;
+                            if (result.id_range) {
+                                successMessage += `&nbsp;&nbsp;ID Range: ${result.id_range}<br>`;
+                            }
+                            successMessage += `</p>`;
+                        } else {
+                            successMessage += `<p><strong>❌ ${result.tournament_name}</strong> - Failed: ${result.error}</p>`;
+                        }
+                    });
+                    successMessage += `</div>`;
+                    
+                    successMessage += `<div class="summary-section"><h5>Summary:</h5>`;
+                    successMessage += `<ul>`;
+                    successMessage += `<li><strong>Grand Prix:</strong> ${summary.grand_prix}</li>`;
+                    successMessage += `<li><strong>Total Lines:</strong> ${summary.total_lines}</li>`;
+                    successMessage += `<li><strong>Successful:</strong> ${summary.successful_lines}</li>`;
+                    successMessage += `<li><strong>Failed:</strong> ${summary.failed_lines}</li>`;
+                    successMessage += `<li><strong>ID Range:</strong> ${summary.id_range}</li>`;
+                    if (summary.total_ids_used) {
+                        successMessage += `<li><strong>Total IDs Used:</strong> ${summary.total_ids_used}</li>`;
+                    }
+                    successMessage += `</ul></div>`;
+                    
+                    showSubmissionStatus('success', successMessage);
+                } else {
+                    showSubmissionStatus('error', `❌ Submission failed: ${data.error}`);
+                }
+            } catch (error) {
+                console.error('Error in submitAllIndividualTournaments:', error);
+                showSubmissionStatus('error', `❌ Error: ${error.message}`);
+            }
+        }
+
+        async function generatePayloads() {
+            const url = document.getElementById('urlInput').value.trim();
+            const startId = parseInt(document.getElementById('startIdInput').value);
+            const leagueId = parseInt(document.getElementById('leagueIdInput').value);
+            const gameType = parseInt(document.getElementById('gameTypeInput').value);
+            const eventType = document.getElementById('eventTypeInput').value;
+            const description = document.getElementById('descriptionInput').value.trim();
+            
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+            
+            if (currentScraping) {
+                alert('Processing in progress, please wait...');
+                return;
+            }
+
+            if (!startId || startId < 1000000 || startId > 9999999) {
+                alert('Please enter a valid 7-digit starting ID (1000000-9999999)');
+                return;
+            }
+
+            await generateApiPayloads(url, startId, leagueId, gameType, eventType, description);
+        }
+
+        async function generateApiPayloads(url, startId, leagueId, gameType, eventType, description) {
+            currentScraping = true;
+            showLoading();
+            
+            try {
+                // Choose the appropriate API endpoint based on event type
+                const endpoint = eventType === 'multi_line' ? '/api/generate-multi-line-payloads' : '/api/generate-payloads';
+                
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        url: url,
+                        start_id: startId,
+                        event_type: eventType,
+                        sport_config: {
+                            id_league: leagueId,
+                            id_game_type: gameType,
+                            description: description
+                        }
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    currentPayloads = data; // Store payloads for submission
+                    displayPayloads(data);
+                    
+                    // Only display scraped data for regular tournaments, not multi-line
+                    if (data.scraped_data && !data.tournaments) {
+                        displayScrapedData(data.scraped_data);
+                    }
+                } else {
+                    const error = await response.json();
+                    showError(`Failed to generate payloads: ${error.error}`);
+                }
+            } catch (error) {
+                showError(`Error: ${error.message}`);
+            } finally {
+                currentScraping = false;
+                hideLoading();
+                // Ensure loading is completely cleared
+                const resultsSection = document.getElementById('resultsSection');
+                if (resultsSection) {
+                    resultsSection.style.display = 'none';
+                }
+            }
+        }
+
+        function displayPayloads(data) {
+            const payloadSection = document.getElementById('payloadSection');
+            const container = document.getElementById('payloadContainer');
+            
+            payloadSection.style.display = 'block';
+            
+            // Check if this is multi-line tournament data
+            if (data.tournaments && Array.isArray(data.tournaments)) {
+                // Multi-line tournament display
+                let html = `
+                    <div class="endpoint-info">
+                        <h4>🏆 Multi-Line Tournament Results</h4>
+                        <p><strong>Tournament Type:</strong> ${data.tournament_type}</p>
+                        <p><strong>Total Lines Found:</strong> ${data.total_tournaments}</p>
+                        <p><strong>Total Teams:</strong> ${data.stats ? data.stats.total_teams : 'N/A'}</p>
+                        <p><strong>ID Range:</strong> ${data.stats ? data.stats.id_range : 'N/A'}</p>
+                    </div>
+                `;
+                
+                data.tournaments.forEach((tournament, index) => {
+                    html += `
+                        <div class="tournament-card">
+                            <h4>📊 ${tournament.line_name} Tournament</h4>
+                            <p><strong>Type:</strong> ${tournament.tournament_type}</p>
+                            <p><strong>Teams:</strong> ${tournament.stats ? tournament.stats.total_teams : 'N/A'}</p>
+                            <p><strong>ID Range:</strong> ${tournament.stats ? tournament.stats.id_range : 'N/A'}</p>
+                            
+                            <div class="odds-preview">
+                                <h5>Sample Odds:</h5>
+                                <div class="odds-list">
+                    `;
+                    
+                    tournament.scraped_data.slice(0, 5).forEach(team => {
+                        html += `<div class="odds-item">${team.team}: ${team.odds} (was ${team.original_odds})</div>`;
+                    });
+                    
+                    if (tournament.scraped_data.length > 5) {
+                        html += `<div class="odds-item">... and ${tournament.scraped_data.length - 5} more teams</div>`;
+                    }
+                    
+                    html += `
+                                </div>
+                            </div>
+                            
+                            <div class="tournament-actions">
+                                <button onclick="submitMultiLineTournament(${index})" class="btn btn-primary">Create ${tournament.line_name} Tournament</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                // Add button to submit all individual tournaments
+                html += `
+                    <div class="tournament-card" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; text-align: center;">
+                        <h4>🚀 Submit All Individual Tournaments</h4>
+                        <p>Create separate tournaments for each betting line with Grand Prix names</p>
+                        <button onclick="submitAllIndividualTournaments()" class="btn btn-success" style="background: white; color: #28a745; font-weight: bold;">Submit All Individual Tournaments</button>
+                        <div class="submission-status" id="multiLineSubmissionStatus" style="display: none; margin-top: 15px; color: white;"></div>
+                    </div>
+                `;
+                
+                container.innerHTML = html;
+                
+                // Store tournament data for submission
+                window.multiLineTournamentData = data;
+            } else {
+                // Regular tournament display
+                let html = `
+                    <div class="endpoint-info">
+                        <h4>📡 API Endpoints</h4>
+                        <p><strong>Game Creation:</strong></p>
+                        <div class="endpoint-url">POST https://clmapi.sportsfanwagers.com/api/Game/InsertGame</div>
+                        <p><strong>Odds Submission:</strong></p>
+                        <div class="endpoint-url">POST https://clmapi.sportsfanwagers.com/api/Game/InsertGameValuesTNT?idGame=&lt;GAME_ID&gt;</div>
+                    </div>
+                    
+                    <div class="payload-container">
+                        <div class="payload-title">🎮 Game Creation Payload (InsertGame)</div>
+                        <div class="payload-json">${JSON.stringify(data.game_creation_payload, null, 2)}</div>
+                    </div>
+                    
+                    <div class="payload-container">
+                        <div class="payload-title">🎯 Odds Submission Payload (InsertGameValuesTNT)</div>
+                        <div class="payload-json">${JSON.stringify(data.odds_submission_payload, null, 2)}</div>
+                    </div>
+                    
+                    <div class="success">
+                        ✅ <strong>Payloads Generated Successfully!</strong><br>
+                        📊 Teams: ${data.stats ? data.stats.total_teams : 'N/A'}<br>
+                        🔢 ID Range: ${data.stats ? data.stats.id_range : 'N/A'}<br>
+                        ⚡ Odds Processed: ${data.stats && data.stats.odds_processed ? 'Yes (25% reduction + rounding)' : 'No'}
+                    </div>
+                    
+                    <div class="submission-section">
+                        <h4>🚀 Submit to CLM API</h4>
+                        <div class="submission-buttons">
+                            <button onclick="submitGameOnly()" class="btn btn-primary">Create Game Only</button>
+                            <button onclick="submitComplete()" class="btn btn-success">Create Game + Submit Odds</button>
+                            <button onclick="checkExistingOdds()" class="btn btn-secondary">Check Existing Odds</button>
+                        </div>
+                        <div class="submission-status" id="submissionStatus" style="display: none;"></div>
+                    </div>
+                `;
+                
+                container.innerHTML = html;
+            }
+        }
+
+        function displayScrapedData(scrapedData) {
+            const resultsSection = document.getElementById('resultsSection');
+            const container = document.getElementById('resultsContainer');
+            
+            if (!resultsSection || !container) {
+                console.error('Results section or container not found');
+                return;
+            }
+            
+            if (!scrapedData) {
+                console.error('No scraped data provided');
+                return;
+            }
+            
+            resultsSection.style.display = 'block';
+            
+            // Clear any existing content to prevent duplicates
+            container.innerHTML = '';
+            
+            let html = '';
+            
+            // Handle different event types
+            if (scrapedData.event_type === 'conference') {
+                html = `
+                    <div class="result-item">
+                        <div class="result-url">📊 Conference Winner Odds</div>
+                        <div class="success">✅ Successfully scraped ${scrapedData.conferences.length} conferences</div>
+                `;
+                
+                scrapedData.conferences.forEach(conference => {
+                    html += `
+                        <div class="conference-section">
+                            <h4>🏈 ${conference.conference} Conference</h4>
+                            <div class="odds-list">
+                    `;
+                    
+                    conference.teams.forEach(team => {
+                        html += `
+                            <div class="odds-item">
+                                <div class="team-name">${team.team}</div>
+                                <div class="odds-value">${team.odds}</div>
+                                <div style="font-size: 0.8em; color: #666; margin-top: 2px;">
+                                    Original: ${team.original_odds}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+                
+            } else if (scrapedData.event_type === 'division') {
+                html = `
+                    <div class="result-item">
+                        <div class="result-url">📊 Division Winner Odds</div>
+                        <div class="success">✅ Successfully scraped ${scrapedData.divisions.length} divisions</div>
+                `;
+                
+                scrapedData.divisions.forEach(division => {
+                    html += `
+                        <div class="division-section">
+                            <h4>🏈 ${division.conference} ${division.division}</h4>
+                            <div class="odds-list">
+                    `;
+                    
+                    division.teams.forEach(team => {
+                        html += `
+                            <div class="odds-item">
+                                <div class="team-name">${team.team}</div>
+                                <div class="odds-value">${team.odds}</div>
+                                <div style="font-size: 0.8em; color: #666; margin-top: 2px;">
+                                    Original: ${team.original_odds}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+                
+            } else {
+                // Championship or flat list
+                const teams = Array.isArray(scrapedData) ? scrapedData : scrapedData.teams || [];
+                
+                html = `
+                    <div class="result-item">
+                        <div class="result-url">📊 Scraped Data with Processed Odds</div>
+                        <div class="success">✅ Successfully scraped ${teams.length} teams</div>
+                        <div class="odds-list">
+                `;
+                
+                // Ensure we have unique teams (extra safety)
+                const uniqueTeams = [];
+                const seenTeams = new Set();
+                
+                teams.forEach(team => {
+                    if (!seenTeams.has(team.team)) {
+                        uniqueTeams.push(team);
+                        seenTeams.add(team.team);
+                    }
+                });
+                
+                uniqueTeams.forEach(team => {
+                    html += `
+                        <div class="odds-item">
+                            <div class="team-name">${team.team}</div>
+                            <div class="odds-value">${team.odds}</div>
+                            <div style="font-size: 0.8em; color: #666; margin-top: 2px;">
+                                Original: ${team.original_odds}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function showError(message) {
+            const resultsSection = document.getElementById('resultsSection');
+            const container = document.getElementById('resultsContainer');
+            
+            resultsSection.style.display = 'block';
+            container.innerHTML = `<div class="error">❌ ${message}</div>`;
+        }
+
+        async function scrapeSingleUrl() {
+            const url = document.getElementById('urlInput').value.trim();
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+            
+            if (currentScraping) {
+                alert('Scraping in progress, please wait...');
+                return;
+            }
+
+            await scrapeUrls([url]);
+        }
+
+        async function scrapeAllPresets() {
+            if (currentScraping) {
+                alert('Scraping in progress, please wait...');
+                return;
+            }
+
+            const presetCards = document.querySelectorAll('.preset-card');
+            const urls = Array.from(presetCards).map(card => 
+                card.querySelector('.preset-url').textContent.trim()
+            );
+
+            await scrapeUrls(urls);
+        }
+
+        async function scrapeUrls(urls) {
+            currentScraping = true;
+            showLoading();
+            
+            const newResults = [];
+            
+            for (let i = 0; i < urls.length; i++) {
+                const url = urls[i];
+                updateLoading(`Scraping ${i + 1}/${urls.length}: ${url}`);
+                
+                try {
+                    // Simulate API call to backend scraper
+                    const response = await fetch('/api/scrape', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ url: url })
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        newResults.push({
+                            url: url,
+                            success: true,
+                            odds: data.odds || [],
+                            error: null
+                        });
+                    } else {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                } catch (error) {
+                    newResults.push({
+                        url: url,
+                        success: false,
+                        odds: [],
+                        error: error.message
+                    });
+                }
+                
+                // Small delay between requests
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+            
+            results = newResults;
+            currentScraping = false;
+            hideLoading();
+            displayResults();
+            updateStats();
+        }
+
+        function showLoading() {
+            const resultsSection = document.getElementById('resultsSection');
+            resultsSection.style.display = 'block';
+            
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Scraping odds data...</p>
+                </div>
+            `;
+        }
+
+        function updateLoading(message) {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        function hideLoading() {
+            // Clear the loading state
+            const resultsSection = document.getElementById('resultsSection');
+            const container = document.getElementById('resultsContainer');
+            
+            if (resultsSection && container) {
+                // Clear any loading content
+                container.innerHTML = '';
+            }
+        }
+
+        function displayResults() {
+            const container = document.getElementById('resultsContainer');
+            
+            if (results.length === 0) {
+                container.innerHTML = '<div class="error">No results to display</div>';
+                return;
+            }
+            
+            let html = '';
+            
+            results.forEach((result, index) => {
+                html += `
+                    <div class="result-item">
+                        <div class="result-url">${index + 1}. ${result.url}</div>
+                `;
+                
+                if (result.success) {
+                    if (result.odds.length > 0) {
+                        html += `
+                            <div class="success">✅ Successfully scraped ${result.odds.length} odds</div>
+                            <div class="odds-list">
+                        `;
+                        
+                        result.odds.forEach(odd => {
+                            html += `
+                                <div class="odds-item">
+                                    <div class="team-name">${odd.team}</div>
+                                    <div class="odds-value">${odd.odds}</div>
+                                </div>
+                            `;
+                        });
+                        
+                        html += '</div>';
+                    } else {
+                        html += '<div class="error">⚠️ No odds found on this page</div>';
+                    }
+                } else {
+                    html += `<div class="error">❌ Error: ${result.error}</div>`;
+                }
+                
+                html += '</div>';
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function updateStats() {
+            const statsSection = document.getElementById('statsSection');
+            statsSection.style.display = 'block';
+            
+            const totalUrls = results.length;
+            const successfulUrls = results.filter(r => r.success).length;
+            const totalOdds = results.reduce((sum, r) => sum + r.odds.length, 0);
+            const successRate = totalUrls > 0 ? Math.round((successfulUrls / totalUrls) * 100) : 0;
+            
+            document.getElementById('totalUrls').textContent = totalUrls;
+            document.getElementById('totalOdds').textContent = totalOdds;
+            document.getElementById('successRate').textContent = successRate + '%';
+        }
+
+        function clearResults() {
+            results = [];
+            currentPayloads = null;
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('payloadSection').style.display = 'none';
+            document.getElementById('statsSection').style.display = 'none';
+            document.getElementById('urlInput').value = '';
+            document.getElementById('startIdInput').value = '1000000';
+            document.getElementById('leagueIdInput').value = '3101';
+            document.getElementById('gameTypeInput').value = '1';
+            document.getElementById('descriptionInput').value = 'DraftKings Scraped Data';
+        }
+
+        // API Submission Functions
+        function showConfirmationDialog(message, onConfirm, onCancel) {
+            const dialog = document.createElement('div');
+            dialog.className = 'confirmation-dialog';
+            dialog.innerHTML = `
+                <div class="confirmation-content">
+                    <h3>⚠️ Confirmation Required</h3>
+                    <p>${message}</p>
+                    <div class="confirmation-buttons">
+                        <button onclick="confirmSubmission()" class="btn btn-success">Yes, Submit</button>
+                        <button onclick="cancelSubmission()" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(dialog);
+            
+            window.confirmSubmission = () => {
+                document.body.removeChild(dialog);
+                onConfirm();
+            };
+            
+            window.cancelSubmission = () => {
+                document.body.removeChild(dialog);
+                if (onCancel) onCancel();
+            };
+        }
+
+        function submitGameOnly() {
+            if (!currentPayloads) {
+                showSubmissionStatus('error', 'No payloads available. Please generate payloads first.');
+                return;
+            }
+
+            const message = `Are you sure you want to create a new game with ${currentPayloads.stats ? currentPayloads.stats.total_teams : 'N/A'} teams?<br><br>
+                           <strong>Game Details:</strong><br>
+                           • Description: ${currentPayloads.game_creation_payload.Description}<br>
+                           • League ID: ${currentPayloads.game_creation_payload.IdLeague}<br>
+                           • Game Type: ${currentPayloads.game_creation_payload.IdGameType}<br>
+                           • Teams: ${currentPayloads.stats ? currentPayloads.stats.total_teams : 'N/A'}`;
+
+            showConfirmationDialog(message, () => {
+                performGameSubmission();
+            });
+        }
+
+        function submitComplete() {
+            if (!currentPayloads) {
+                showSubmissionStatus('error', 'No payloads available. Please generate payloads first.');
+                return;
+            }
+
+            const message = `Are you sure you want to create a new game AND submit odds?<br><br>
+                           <strong>Game Details:</strong><br>
+                           • Description: ${currentPayloads.game_creation_payload.Description}<br>
+                           • League ID: ${currentPayloads.game_creation_payload.IdLeague}<br>
+                           • Game Type: ${currentPayloads.game_creation_payload.IdGameType}<br>
+                           • Teams: ${currentPayloads.stats ? currentPayloads.stats.total_teams : 'N/A'}<br>
+                           • Odds: ${currentPayloads.stats ? currentPayloads.stats.total_teams : 'N/A'} entries with processed odds`;
+
+            showConfirmationDialog(message, () => {
+                performCompleteSubmission();
+            });
+        }
+
+        async function performGameSubmission() {
+            showSubmissionStatus('info', 'Creating game...');
+            
+            try {
+                const response = await fetch('/api/submit-game', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        game_payload: currentPayloads.game_creation_payload
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSubmissionStatus('success', `✅ Game created successfully!<br><strong>Game ID:</strong> ${data.game_id}<br><strong>Message:</strong> ${data.message}`);
+                } else {
+                    showSubmissionStatus('error', `❌ Game creation failed:<br>${data.error}<br><strong>Details:</strong> ${data.details || 'No additional details'}`);
+                }
+            } catch (error) {
+                showSubmissionStatus('error', `❌ Error: ${error.message}`);
+            }
+        }
+
+        async function performCompleteSubmission() {
+            showSubmissionStatus('info', 'Creating game and submitting odds...');
+            
+            try {
+                const response = await fetch('/api/submit-complete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        game_payload: currentPayloads.game_creation_payload,
+                        odds_payload: currentPayloads.odds_submission_payload
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSubmissionStatus('success', `✅ Complete submission successful!<br><strong>Game ID:</strong> ${data.game_id}<br><strong>Message:</strong> ${data.message}`);
+                } else {
+                    showSubmissionStatus('error', `❌ Submission failed:<br>${data.error}<br><strong>Details:</strong> ${data.details || 'No additional details'}`);
+                }
+            } catch (error) {
+                showSubmissionStatus('error', `❌ Error: ${error.message}`);
+            }
+        }
+
+        async function checkExistingOdds() {
+            const gameId = prompt('Enter Game ID to check existing odds:');
+            if (!gameId) return;
+
+            showSubmissionStatus('info', `Checking existing odds for Game ID: ${gameId}...`);
+            
+            try {
+                const response = await fetch(`/api/check-existing-odds?game_id=${gameId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    if (data.has_existing_odds) {
+                        showSubmissionStatus('info', `⚠️ Game ${gameId} already has ${data.existing_odds_count} odds entries.<br><strong>Existing odds:</strong><br>${JSON.stringify(data.existing_odds, null, 2)}`);
+                    } else {
+                        showSubmissionStatus('success', `✅ Game ${gameId} has no existing odds entries. Safe to submit new odds.`);
+                    }
+                } else {
+                    showSubmissionStatus('error', `❌ Failed to check existing odds:<br>${data.error}`);
+                }
+            } catch (error) {
+                showSubmissionStatus('error', `❌ Error: ${error.message}`);
+            }
+        }
+
+        function showSubmissionStatus(type, message) {
+            // Try to find submission status element (for regular tournaments)
+            let statusDiv = document.getElementById('submissionStatus');
+            let isMultiLine = false;
+            
+            // If not found, try multi-line submission status (for multi-line tournaments)
+            if (!statusDiv) {
+                statusDiv = document.getElementById('multiLineSubmissionStatus');
+                isMultiLine = true;
+            }
+            
+            // If still not found, create a temporary one
+            if (!statusDiv) {
+                statusDiv = document.createElement('div');
+                statusDiv.className = 'submission-status';
+                statusDiv.id = 'tempSubmissionStatus';
+                document.body.appendChild(statusDiv);
+            }
+            
+            // Use multi-line specific classes for better contrast
+            if (isMultiLine || statusDiv.id === 'multiLineSubmissionStatus') {
+                statusDiv.className = `submission-status multi-line-${type}`;
+            } else {
+                statusDiv.className = `submission-status ${type}`;
+            }
+            
+            statusDiv.innerHTML = message;
+            statusDiv.style.display = 'block';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DraftKings Odds Scraper Web App initialized');
+        });
+    </script>
+</body>
+</html>

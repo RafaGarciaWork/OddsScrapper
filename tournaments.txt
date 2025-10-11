@@ -1,0 +1,63 @@
+Formula 1
+Formula 1 Race weekend winner
+trucks Series championship
+Trucks race weekend winner
+NASCAR SERIES CHAMPIONSHIP
+NASCAR race weekend winner
+XFINITY SERIES CHAMPIONSHIP
+XFINITY race weeekend winner
+Collegue Basketball championship
+Collegue football national championship
+Collegue Football conference winner 
+    ACC
+    AAC
+    BIG 12
+    BIG TEN
+    CONFERENCE USA
+    MAC
+    MOUNTAIN WEST
+    SEC
+    SUN BELT
+Collegue Football heisman trophy
+NBA championship
+NBA EASTERN CONFERENCE
+NBA WESTERN CONFERENCE
+NBA DIVISIONS
+    atlantic
+    central
+    southeast
+    southwest
+    northwest
+    pacific
+NBA COACH OF THE YEAR
+NBA REGULAR SEASON MVP
+NHL STANLEY CUP winner
+NHL EASTERN CONFERENCE
+NHL western conference
+NHL DIVISIONS
+    atlantic
+    central
+    metropolitan
+    pacific
+NHL HART MEMORIAL trophy
+NHL JACK ADAMS AWARD
+NFL Superbowl
+NFL AFC CONFERENCE
+NFL NFC CONFERENCE
+NFL DIVISIONS
+    AFC EAST
+    AFC NORTH
+    AFC SOUTH
+    AFC WEST
+    NFC EAST
+    NFC NORTH
+    NFC SOUTH
+    NFC WEST
+NFL WInning DIVISIONS
+NFL COACH OF THE YEAR
+NFL REGULAR SEASON MVP
+NFL OFENSIVE ROOKIE OF THE YEAR
+NFL DEFENSIVE ROOKIE OF THE YEAR
+NFL COMEBACK PLAYER OF THE YEAR
+NFL OFENSIVE PLAYER OF THE YEAR
+NFL DEFENSIVE PLAYER OF THE YEAR
