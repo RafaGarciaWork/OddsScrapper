@@ -16,6 +16,7 @@ from bs4 import BeautifulSoup
 import logging
 from webdriver_manager.chrome import ChromeDriverManager
 import os
+import re
 
 app = Flask(__name__)
 CORS(app)
@@ -327,34 +328,23 @@ def clean_team_name(team_name):
     if not team_name:
         return team_name
     
-    # Remove common unwanted prefixes
+    # For cycling, be very conservative with cleaning - only remove obvious unwanted text
+    # Remove common unwanted prefixes (only the most obvious ones)
     unwanted_prefixes = [
-        'Finish',
-        'To Finish',
-        'To Win',
         'Winner',
-        'Champion',
-        'Top',
-        'Place',
-        'Position',
-        'AMRACE Winner',  # Specific to your issue
-        'AMRACE',
+        'Champion', 
+        'To Win',
+        'To Finish',
+        'Finish Winner',
         'Race Winner',
+        'AMRACE Winner',
+        'AMRACE Winner',
+        'AMRACE',
         'Race',
-        'Finish ',  # Handle "Finish Lando Norris" case
-        'Finish To',  # Handle "Finish To Win" case
-        'Finish Winner',  # Handle "Finish Winner" case
-        'Finish Lando',  # Specific fix for "Finish Lando Norris"
-        'Finish Max',  # Specific fix for "Finish Max Verstappen"
-        'Finish Oscar',  # Specific fix for "Finish Oscar Piastri"
-        'Finish George',  # Specific fix for "Finish George Russell"
-        'Finish Charles',  # Specific fix for "Finish Charles Leclerc"
-        'Finish Lewis',  # Specific fix for "Finish Lewis Hamilton"
     ]
     
-    # Remove common unwanted suffixes
+    # Remove common unwanted suffixes (only the most obvious ones)
     unwanted_suffixes = [
-        'Finish',
         'Winner',
         'Champion',
         'To Win',
@@ -363,36 +353,29 @@ def clean_team_name(team_name):
     
     cleaned_name = team_name.strip()
     
-    # Remove prefixes (case insensitive) - try multiple times to catch nested prefixes
-    max_iterations = 5  # Increased iterations to handle more complex cases
-    for iteration in range(max_iterations):
-        original_name = cleaned_name
-        for prefix in unwanted_prefixes:
-            if cleaned_name.lower().startswith(prefix.lower()):
-                cleaned_name = cleaned_name[len(prefix):].strip()
-                logger.debug(f"Removed prefix '{prefix}' from '{original_name}' -> '{cleaned_name}'")
-                break  # Start over with the new cleaned name
-        if cleaned_name == original_name:  # No more prefixes to remove
-            break
+    # Remove prefixes (case insensitive) - but be more conservative
+    for prefix in unwanted_prefixes:
+        if cleaned_name.lower().startswith(prefix.lower()):
+            cleaned_name = cleaned_name[len(prefix):].strip()
+            logger.debug(f"Removed prefix '{prefix}' from '{team_name}' -> '{cleaned_name}'")
+            break  # Only remove one prefix to avoid over-cleaning
     
-    # Remove suffixes (case insensitive)
+    # Remove suffixes (case insensitive) - but be more conservative  
     for suffix in unwanted_suffixes:
         if cleaned_name.lower().endswith(suffix.lower()):
             cleaned_name = cleaned_name[:-len(suffix)].strip()
             logger.debug(f"Removed suffix '{suffix}' from '{team_name}' -> '{cleaned_name}'")
+            break  # Only remove one suffix to avoid over-cleaning
     
-    # Clean up any extra spaces and special characters
+    # Clean up any extra spaces
     cleaned_name = ' '.join(cleaned_name.split())
     
-    # Remove any remaining unwanted patterns
+    # Only remove very specific unwanted patterns (be very conservative)
     unwanted_patterns = [
-        r'^Finish\s*',  # Regex for "Finish" or "Finish " at start
-        r'\s+Finish$',  # Regex for " Finish" at end
-        r'^To\s+Finish\s+',  # Regex for "To Finish " at start
-        r'^To\s+Win\s+',  # Regex for "To Win " at start
-        r'^AMRace\s+Winner\s*',  # Regex for "AMRace Winner" at start
-        r'^AMRACE\s+Winner\s*',  # Regex for "AMRACE Winner" at start
-        r'^Race\s+Winner\s*',  # Regex for "Race Winner" at start
+        r'^Winner\s+',  # Only "Winner " at start
+        r'^Champion\s+',  # Only "Champion " at start
+        r'^To\s+Win\s+',  # Only "To Win " at start
+        r'^To\s+Finish\s+',  # Only "To Finish " at start
     ]
     
     import re
@@ -404,53 +387,89 @@ def clean_team_name(team_name):
     
     return cleaned_name
 
-def normalize_driver_name(name):
-    """Normalize driver names to handle variations like 'AMRace Winner Max Verstappen' vs 'Max Verstappen'."""
+def normalize_driver_name(name, tournament_type='championship'):
+    """Normalize team/player names for any sport, with fallback for aggressive cleaning."""
     if not name:
         return name
     
-    # Clean the name first
+    # For cycling, preserve the original name as much as possible
+    if tournament_type == 'championship':  # Cycling championship
+        # Minimal cleaning: just strip whitespace and capitalize properly
+        cleaned = name.strip()
+        # Only capitalize first letter of each word, preserve the rest
+        cleaned = ' '.join(word.capitalize() for word in cleaned.split())
+        return cleaned
+    
+    # Clean the name first for other sports
     cleaned = clean_team_name(name)
     
-    # Common F1 driver names to match against
-    f1_drivers = [
-        'lando norris', 'max verstappen', 'oscar piastri', 'george russell', 
-        'charles leclerc', 'lewis hamilton', 'carlos sainz', 'alexander albon',
-        'andrea kimi antonelli', 'isack hadjar', 'fernando alonso', 'sergio perez',
-        'valtteri bottas', 'esteban ocon', 'pierre gasly', 'yuki tsunoda',
-        'kevin magnussen', 'nico hulkenberg', 'lance stroll', 'logan sargeant'
-    ]
+    # If cleaning resulted in empty name, use original with minimal cleaning
+    if not cleaned or len(cleaned.strip()) < 2:
+        # Minimal cleaning: just strip whitespace and capitalize
+        cleaned = name.strip()
+        cleaned = ' '.join(word.capitalize() for word in cleaned.split())
+        return cleaned
     
-    # Try to match against known F1 drivers
-    cleaned_lower = cleaned.lower()
-    for driver in f1_drivers:
-        if driver in cleaned_lower:
-            # Return the standardized name (first letter capitalized)
-            return ' '.join(word.capitalize() for word in driver.split())
+    # For auto racing (F1), try to match against known drivers
+    if tournament_type == 'auto_racing':
+        f1_drivers = [
+            'lando norris', 'max verstappen', 'oscar piastri', 'george russell', 
+            'charles leclerc', 'lewis hamilton', 'carlos sainz', 'alexander albon',
+            'andrea kimi antonelli', 'isack hadjar', 'fernando alonso', 'sergio perez',
+            'valtteri bottas', 'esteban ocon', 'pierre gasly', 'yuki tsunoda',
+            'kevin magnussen', 'nico hulkenberg', 'lance stroll', 'logan sargeant'
+        ]
+        
+        # Try to match against known F1 drivers
+        cleaned_lower = cleaned.lower()
+        for driver in f1_drivers:
+            if driver in cleaned_lower:
+                # Return the standardized name (first letter capitalized)
+                return ' '.join(word.capitalize() for word in driver.split())
     
-    # If no match found, return the cleaned name
-    return cleaned
+    # For all other sports, return cleaned name with proper capitalization
+    return ' '.join(word.capitalize() for word in cleaned.split())
 
-def remove_duplicate_drivers(odds_data):
-    """Remove duplicate drivers, keeping only the first instance of each driver."""
+def remove_duplicate_drivers(odds_data, tournament_type='championship'):
+    """Remove duplicate drivers/teams, keeping only the first instance of each."""
     seen_drivers = set()
     unique_odds_data = []
     
     for entry in odds_data:
-        # Normalize the driver name
-        normalized_name = normalize_driver_name(entry.get('team', ''))
+        # Normalize the driver/team name
+        normalized_name = normalize_driver_name(entry.get('team', ''), tournament_type)
         
-        # Check if we've seen this driver before
+        # Check if we've seen this driver/team before (exact match)
         if normalized_name and normalized_name not in seen_drivers:
-            # Update the entry with the normalized name
-            entry['team'] = normalized_name
-            unique_odds_data.append(entry)
-            seen_drivers.add(normalized_name)
-            logger.info(f"Added unique driver: {normalized_name}")
+            # Also check for partial matches to avoid duplicates like "Van Aert" vs "Wout Van Aert"
+            is_duplicate = False
+            for seen_name in seen_drivers:
+                # Check if current name is a substring of seen name or vice versa
+                if (normalized_name.lower() in seen_name.lower() or 
+                    seen_name.lower() in normalized_name.lower()):
+                    # If current name is shorter, it's likely a partial duplicate
+                    if len(normalized_name) < len(seen_name):
+                        logger.info(f"Skipped partial duplicate: {normalized_name} (already have: {seen_name})")
+                        is_duplicate = True
+                        break
+                    # If current name is longer, replace the shorter one
+                    elif len(normalized_name) > len(seen_name):
+                        logger.info(f"Replacing partial with full name: {seen_name} -> {normalized_name}")
+                        # Remove the shorter name from seen_drivers and unique_odds_data
+                        seen_drivers.remove(seen_name)
+                        unique_odds_data = [e for e in unique_odds_data if e.get('team') != seen_name]
+                        break
+            
+            if not is_duplicate:
+                # Update the entry with the normalized name
+                entry['team'] = normalized_name
+                unique_odds_data.append(entry)
+                seen_drivers.add(normalized_name)
+                logger.info(f"Kept: {normalized_name}, odds: {entry.get('odds')}")
         else:
-            logger.info(f"Skipping duplicate driver: {normalized_name}")
+            logger.info(f"Skipped: {normalized_name}, odds: {entry.get('odds')}")
     
-    logger.info(f"Removed {len(odds_data) - len(unique_odds_data)} duplicate drivers")
+    logger.info(f"Removed {len(odds_data) - len(unique_odds_data)} duplicate drivers/teams")
     return unique_odds_data
 
 def ensure_all_players_have_entries(all_odds_data, betting_lines):
@@ -495,11 +514,11 @@ def ensure_all_players_have_entries(all_odds_data, betting_lines):
 def process_odds(odds_str):
     """Process odds: reduce by 25% and round down to nearest 0 or 5."""
     try:
-        # Remove + or - sign and convert to integer
+        # Remove + or - sign and convert to integer (handle both regular - and Unicode −)
         is_positive = odds_str.startswith('+')
-        odds_value = int(odds_str.replace('+', '').replace('-', ''))
+        odds_value = int(odds_str.replace('+', '').replace('-', '').replace('−', ''))
         
-        # Reduce by 25% (multiply by 0.75)
+        # Apply 25% reduction to the absolute value
         processed_value = int(odds_value * 0.75)
         
         # Round down to nearest 0 or 5
@@ -512,8 +531,10 @@ def process_odds(odds_str):
             processed_value = processed_value - last_digit + 5  # Round down to 5
         # If last digit is 0 or 5, keep as is
         
-        # Cap at 20000
-        if processed_value > 20000:
+        # Cap at 20000 (for positive odds) or -20000 (for negative odds)
+        if is_positive and processed_value > 20000:
+            processed_value = 20000
+        elif not is_positive and processed_value > 20000:  # For negative odds, cap at -20000
             processed_value = 20000
         
         # Add back the sign
@@ -708,6 +729,18 @@ def scrape_first_tournament_only(soup, tournament_type):
                 logger.info(f"Stopping at element {i} - detected different tournament: {team_name}")
                 break
         
+        # Filter out common betting interface text patterns that are not team names
+        betting_interface_patterns = [
+            'if the odds are', 'if odds are', 'odds are', 'betting odds', 'current odds',
+            'live odds', 'updated odds', 'new odds', 'latest odds', 'odds update',
+            'bet now', 'place bet', 'betting line', 'betting market', 'betting option',
+            'click to bet', 'bet here', 'wagering', 'gambling', 'sportsbook'
+        ]
+        
+        if any(pattern in team_name.lower() for pattern in betting_interface_patterns):
+            logger.info(f"Skipping betting interface text: {team_name}")
+            continue
+        
         # Check for duplicates and add to results
         if team_name and original_odds and team_name not in seen_teams:
             odds_data.append({
@@ -762,6 +795,18 @@ def filter_odds_by_betting_line(odds_data, line_name, tournament_type):
             if any(indicator in team_name for indicator in tournament_indicators):
                 should_exclude = True
                 logger.info(f"Excluding '{entry.get('team')}' for {line_name} - appears to be from different tournament")
+        
+        # Filter out common betting interface text patterns that are not team names
+        if not should_exclude:
+            betting_interface_patterns = [
+                'if the odds are', 'if odds are', 'odds are', 'betting odds', 'current odds',
+                'live odds', 'updated odds', 'new odds', 'latest odds', 'odds update',
+                'bet now', 'place bet', 'betting line', 'betting market', 'betting option',
+                'click to bet', 'bet here', 'wagering', 'gambling', 'sportsbook'
+            ]
+            if any(pattern in team_name for pattern in betting_interface_patterns):
+                should_exclude = True
+                logger.info(f"Excluding '{entry.get('team')}' for {line_name} - appears to be betting interface text")
         
         if not should_exclude:
             # Check if this player has valid odds for this betting line
@@ -1119,6 +1164,11 @@ def scrape_championship_odds(soup):
     team_elements = soup.find_all("span", {"data-testid": "button-title-market-board"})
     odds_elements = soup.find_all("span", {"data-testid": "button-odds-market-board"})
     
+    # If V1 selectors don't work, try regex patterns as fallback
+    if not team_elements or not odds_elements:
+        logger.info("V1 selectors failed, trying regex patterns as fallback")
+        return scrape_championship_odds_regex_fallback(soup)
+    
     if team_elements and odds_elements:
         logger.info(f"Found {len(team_elements)} teams and {len(odds_elements)} odds using V1 selectors")
         
@@ -1162,7 +1212,7 @@ def scrape_championship_odds(soup):
             processed_odds = process_odds(original_odds)
             
             # Normalize the driver name to handle variations
-            normalized_name = normalize_driver_name(team_name)
+            normalized_name = normalize_driver_name(team_name, 'championship')
             
             # Enhanced tournament boundary detection - stop if we hit different tournament indicators
             tournament_indicators = [
@@ -1178,6 +1228,18 @@ def scrape_championship_odds(soup):
                     logger.info(f"Stopping at element {i} - detected different tournament: {team_name}")
                     break
             
+            # Filter out common betting interface text patterns that are not team names
+            betting_interface_patterns = [
+                'if the odds are', 'if odds are', 'odds are', 'betting odds', 'current odds',
+                'live odds', 'updated odds', 'new odds', 'latest odds', 'odds update',
+                'bet now', 'place bet', 'betting line', 'betting market', 'betting option',
+                'click to bet', 'bet here', 'wagering', 'gambling', 'sportsbook'
+            ]
+            
+            if any(pattern in team_name.lower() for pattern in betting_interface_patterns):
+                logger.info(f"Skipping betting interface text: {team_name}")
+                continue
+            
             # Check for tournament name patterns that suggest we're in next week's tournament
             next_week_indicators = [
                 'next week', 'upcoming', 'future', 'next race', 'next grand prix',
@@ -1192,7 +1254,7 @@ def scrape_championship_odds(soup):
             # Check for duplicates using normalized name
             if normalized_name and normalized_name not in seen_teams:
                 # Include player even if they don't have odds
-                if original_odds and processed_odds:
+                if original_odds:
                     odds_data.append({
                         "team": normalized_name, 
                         "odds": processed_odds,
@@ -1257,6 +1319,18 @@ def scrape_championship_odds(soup):
                     team_name = team_elem.get_text(strip=True)
                     odds_value = odds_elem.get_text(strip=True)
                     
+                    # Filter out common betting interface text patterns that are not team names
+                    betting_interface_patterns = [
+                        'if the odds are', 'if odds are', 'odds are', 'betting odds', 'current odds',
+                        'live odds', 'updated odds', 'new odds', 'latest odds', 'odds update',
+                        'bet now', 'place bet', 'betting line', 'betting market', 'betting option',
+                        'click to bet', 'bet here', 'wagering', 'gambling', 'sportsbook'
+                    ]
+                    
+                    if any(pattern in team_name.lower() for pattern in betting_interface_patterns):
+                        logger.info(f"Skipping betting interface text in fallback: {team_name}")
+                        continue
+                    
                     # Validate odds format (should contain + or -) and check for duplicates
                     if (team_name and odds_value and ('+' in odds_value or '-' in odds_value) 
                         and team_name not in seen_teams):
@@ -1292,6 +1366,18 @@ def scrape_championship_odds(soup):
                 team_name = match[0].strip()
                 odds_value = match[1].strip()
                 
+                # Filter out common betting interface text patterns that are not team names
+                betting_interface_patterns = [
+                    'if the odds are', 'if odds are', 'odds are', 'betting odds', 'current odds',
+                    'live odds', 'updated odds', 'new odds', 'latest odds', 'odds update',
+                    'bet now', 'place bet', 'betting line', 'betting market', 'betting option',
+                    'click to bet', 'bet here', 'wagering', 'gambling', 'sportsbook'
+                ]
+                
+                if any(pattern in team_name.lower() for pattern in betting_interface_patterns):
+                    logger.info(f"Skipping betting interface text in text-based: {team_name}")
+                    continue
+                
                 # Filter out common false positives and check for duplicates
                 if (len(team_name) > 3 and len(team_name) < 50 and 
                     team_name not in ['Odds', 'Bet', 'Line', 'Point'] and
@@ -1325,6 +1411,177 @@ def scrape_championship_odds(soup):
     
     logger.info(f"Final result: {len(final_odds_data)} unique teams scraped")
     return final_odds_data
+
+def scrape_championship_odds_regex_fallback(soup):
+    """Fallback method using regex patterns to find cycling data."""
+    logger.info("Using regex patterns as fallback method")
+    odds_data = []
+    seen_teams = set()
+    
+    # Method 1: Try to find Tadej Pogacar and other favorites with different HTML structure
+    logger.info("Looking for favorites with different HTML structure (p.cb-market__label--truncate-strings)")
+    
+    # Find all p elements with the specific class for favorites
+    favorite_names = soup.find_all("p", class_="cb-market__label--truncate-strings")
+    favorite_odds = soup.find_all("span", class_="cb-market__button-odds")
+    
+    logger.info(f"Found {len(favorite_names)} favorite names and {len(favorite_odds)} favorite odds")
+    
+    # Log the raw data for debugging
+    for i, name_elem in enumerate(favorite_names[:5]):  # Log first 5
+        team_name = name_elem.get_text(strip=True)
+        logger.info(f"Favorite name {i+1}: '{team_name}'")
+    
+    for i, odds_elem in enumerate(favorite_odds[:5]):  # Log first 5
+        odds_value = odds_elem.get_text(strip=True)
+        logger.info(f"Favorite odds {i+1}: '{odds_value}'")
+    
+    # Match favorites with their odds using a more precise approach
+    logger.info("Matching favorites with their specific odds")
+    
+    # Create a list of (name, odds) pairs by finding the next odds element after each name
+    favorite_pairs = []
+    
+    for name_elem in favorite_names:
+        team_name = name_elem.get_text(strip=True)
+        if not team_name or team_name.lower() in ['winner', 'champion', 'finish', 'to win', 'to finish']:
+            continue
+            
+        # Find the next odds element after this name element
+        next_odds = name_elem.find_next("span", class_="cb-market__button-odds")
+        if next_odds:
+            odds_value = next_odds.get_text(strip=True)
+            if odds_value and ('+' in odds_value or '-' in odds_value or '−' in odds_value):
+                favorite_pairs.append((team_name, odds_value))
+                logger.info(f"Matched: {team_name} -> {odds_value}")
+    
+    # Process the matched pairs
+    for team_name, odds_value in favorite_pairs:
+        if team_name and odds_value:
+            # Clean and normalize the team name
+            cleaned_name = clean_team_name(team_name)
+            normalized_name = normalize_driver_name(cleaned_name, 'championship')
+            
+            if normalized_name and normalized_name not in seen_teams:
+                processed_odds = process_odds(odds_value)
+                odds_data.append({
+                    "team": normalized_name, 
+                    "odds": processed_odds,
+                    "original_odds": odds_value
+                })
+                seen_teams.add(normalized_name)
+                logger.info(f"Added favorite: {normalized_name} @ {odds_value} -> {processed_odds}")
+    
+    # Method 2: Use regex patterns for other cyclists (only if we don't have enough data)
+    if len(odds_data) < 50:  # Only use regex if we don't have enough data from favorites
+        logger.info("Looking for other cyclists with regex patterns")
+        all_text = soup.get_text()
+        
+        # Look for patterns like "Team Name +120" or "Team Name -150"
+        patterns = [
+            r'([A-Z][a-z]+ [A-Z][a-z]+(?: [A-Z][a-z]+)?)\s*([+-]\d+)',  # Team name followed by odds
+            r'([A-Z][a-z]+ [A-Z][a-z]+)\s*([+-]\d+)',  # Simpler pattern
+        ]
+        
+        for pattern in patterns:
+            matches = re.findall(pattern, all_text)
+            logger.info(f"Found {len(matches)} matches with pattern: {pattern}")
+            
+            for match in matches:
+                team_name = match[0].strip()
+                odds_value = match[1].strip()
+                
+                # Filter out common false positives and partial names
+                if (len(team_name) > 5 and len(team_name) < 50 and  # Require longer names
+                    team_name not in ['Odds', 'Bet', 'Line', 'Point', 'Tour de France', 'DraftKings'] and
+                    ('+' in odds_value or '-' in odds_value) and
+                    team_name not in seen_teams):
+                    
+                    # Check if this is likely a partial name by comparing with existing names
+                    is_partial = False
+                    for existing_name in seen_teams:
+                        if (team_name.lower() in existing_name.lower() or 
+                            existing_name.lower() in team_name.lower()):
+                            if len(team_name) < len(existing_name):
+                                logger.info(f"Skipping likely partial name: {team_name} (exists: {existing_name})")
+                                is_partial = True
+                                break
+                    
+                    if not is_partial:
+                        # Clean and normalize the team name
+                        cleaned_name = clean_team_name(team_name)
+                        normalized_name = normalize_driver_name(cleaned_name, 'championship')
+                        
+                        if normalized_name and normalized_name not in seen_teams:
+                            processed_odds = process_odds(odds_value)
+                            odds_data.append({
+                                "team": normalized_name, 
+                                "odds": processed_odds,
+                                "original_odds": odds_value
+                            })
+                            seen_teams.add(normalized_name)
+                            logger.info(f"Found: {normalized_name} @ {odds_value} -> {processed_odds}")
+    else:
+        logger.info("Skipping regex patterns - already have enough data from favorites")
+    
+    # If we still didn't find enough data, try alternative selectors
+    if len(odds_data) < 5:
+        logger.info("Trying alternative selectors as additional fallback")
+        
+        alternative_selectors = [
+            'span[class*="title"]',
+            'span[class*="odds"]',
+            'span[class*="price"]',
+            'span[class*="name"]',
+            'div[class*="team"]',
+            'div[class*="player"]',
+            'div[class*="rider"]',
+            'span[data-testid*="title"]',
+            'span[data-testid*="odds"]',
+            'span[data-testid*="price"]',
+            'span[data-testid*="name"]',
+            'div[data-testid*="card"]',
+            'div[data-testid*="offer"]',
+        ]
+        
+        for selector in alternative_selectors:
+            try:
+                elements = soup.select(selector)
+                if elements:
+                    logger.info(f"Found {len(elements)} elements with selector: {selector}")
+                    
+                    for elem in elements:
+                        text = elem.get_text(strip=True)
+                        
+                        if text and len(text) > 3:
+                            # Look for odds pattern in the text
+                            odds_match = re.search(r'([+-]\d+)', text)
+                            if odds_match:
+                                odds_value = odds_match.group(1)
+                                team_name = text[:odds_match.start()].strip()
+                                
+                                if (team_name and len(team_name) > 3 and 
+                                    team_name not in seen_teams and
+                                    team_name not in ['Odds', 'Bet', 'Line', 'Point']):
+                                    
+                                    cleaned_name = clean_team_name(team_name)
+                                    normalized_name = normalize_driver_name(cleaned_name, 'championship')
+                                    
+                                    if normalized_name and normalized_name not in seen_teams:
+                                        processed_odds = process_odds(odds_value)
+                                        odds_data.append({
+                                            "team": normalized_name, 
+                                            "odds": processed_odds,
+                                            "original_odds": odds_value
+                                        })
+                                        seen_teams.add(normalized_name)
+                                        logger.info(f"Found: {normalized_name} @ {odds_value} -> {processed_odds}")
+            except Exception as e:
+                logger.debug(f"Selector {selector} failed: {e}")
+                continue
+    
+    logger.info(f"Regex fallback found {len(odds_data)} entries")
+    return odds_data
 
 def scrape_conference_odds(soup):
     """Scrape conference odds with teams grouped by conference (from V1 logic)."""
